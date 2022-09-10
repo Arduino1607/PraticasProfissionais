@@ -17,7 +17,7 @@ O jogo será constituído por quatro fases com chefões e por caminhos (estilo m
   Enfrentar a moça da DETEL que, quando desafiada se transforma em um monstro (inspiração do monstro: bibliotecária do filme Universidade Monstro)
   
 # Personagens:
-- Alune: Personagem jogável 
+- Aluno: Personagem jogável 
 - Circe: Um chefão implacável que o desafiará a jogar conforme a música.
 - César Olavo: Docker, Github e o temivel UML estão no asernal dessa entidade do instituto.
 - Silas: Você está em CHOQUE! Esse chefão com certeza irá fritar seus miolos quando você tentar superá-lo
