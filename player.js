@@ -1,4 +1,4 @@
-import { Sitting, Running, Jumping, Falling } from "./playerState.js";
+import { Sitting, Running, Jumping, Falling, Attacking } from "./playerState.js";
 
 export class Player{
     constructor(game){
@@ -18,7 +18,7 @@ export class Player{
         this.frameInterval = 1000/this.fps;
         this.frameTimer = 0;
         this.image = document.getElementById('player');
-        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this)];
+        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this), new Attacking(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
     }
@@ -40,6 +40,7 @@ export class Player{
         if(this.frameTimer > this.frameInterval){
             this.frameTimer = 0;
             if(this.framex < this.maxFrame-1) this.framex++;
+            else if(this.currentState.getState() == "ATTACKING") this.setState(1)
             else this.framex = 0;
         }else{
             this.frameTimer += deltaTime;

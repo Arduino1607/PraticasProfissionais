@@ -3,12 +3,15 @@ const states = {
     RUNNING: 1,
     JUMPING: 2,
     FALLING: 3,
-
+    ATTACKING: 4,
 }
 
 class State{
     constructor(state){
         this.state = state;
+    }
+    getState(){
+        return this.state;
     }
 }
 
@@ -47,6 +50,8 @@ export class Running extends State{
             this.player.setState(states.SITTING);
         } else if(input.includes('ArrowUp')){
             this.player.setState(states.JUMPING);
+        } else if(input.includes('a')){
+            this.player.setState(states.ATTACKING);
         }
     }
 }
@@ -84,5 +89,22 @@ export class Falling extends State{
         if(this.player.onGround()){
             this.player.setState(states.RUNNING);
         } 
+    }
+}
+
+export class Attacking extends State{
+    constructor(player){
+        super('ATTACKING');
+        this.player = player;
+    }
+    enter(){
+        this.player.framex = 0;
+        this.player.framey = 7;
+        this.player.maxFrame = 6;
+        console.log(this.getState());
+
+    }
+    handleInput(input){
+       
     }
 }
