@@ -31,7 +31,6 @@ export class Sitting extends State{
     }
     handleInput(input){
         if(input.includes('ArrowRight')|| input.includes('ArrowLeft')){
-            console.log("hello");
             this.player.setState(states.RUNNING);
         } 
     }
@@ -50,7 +49,6 @@ export class Running extends State{
     }
     handleInput(input){
         if(input.includes('ArrowDown')){
-            console.log("hallo");
             this.player.setState(states.SITTING);
         } else if(input.includes('ArrowUp')){
             this.player.setState(states.JUMPING);
@@ -140,8 +138,7 @@ export class Ball extends State{
     }
     handleInput(input){
         if(this.player.onGround()){
-
-            this.player.setState(states.RUNNING);
+            this.player.setState(states.IDLE);
         }
     }
 }

@@ -1,37 +1,19 @@
 export class InputHandler{
     constructor(){
         this.keys = [];
+        this.controls = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'a', 'd', 'w', ' ', 'Enter']
         window.addEventListener('keydown', e=>{
-            if((e.key === 'ArrowDown' ||
-                e.key === 'ArrowUp' ||
-                e.key === 'ArrowLeft' ||
-                e.key === 'ArrowRight' ||
-                e.key === 'a' ||
-                e.key === 'd' ||
-                e.key === 'w' ||
-                e.key === ' ' ||
-                e.key === 's' ||
-                e.key === 'Enter'
-                )&& this.keys.indexOf(e.key) === -1){
+            if(this.controls.includes(e.key) && this.keys.indexOf(e.key) === -1){
                 this.keys.push(e.key);
             }
-            console.log(e.key, this.keys);
+            //console.log(e.key, this.keys);
         });
         
         window.addEventListener('keyup', e=>{
-            if(e.key === 'ArrowDown' ||
-               e.key === 'ArrowUp' ||
-               e.key === 'ArrowLeft' ||
-               e.key === 'ArrowRight' ||
-               e.key === 'a' ||
-               e.key === 'd' ||
-               e.key === 'w' ||
-               e.key === ' ' ||
-               e.key === 's' ||
-               e.key === 'Enter'){
+            if(this.controls.includes(e.key)){
                 this.keys.splice( this.keys.indexOf(e.key),1);
             }
-            console.log(e.key, this.keys);
+            //console.log(e.key, this.keys);
         });
 
     }

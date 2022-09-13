@@ -2,24 +2,33 @@ import { Sitting, Running, Jumping, Falling, Attacking, Idle, Climbing, Deading,
 
 export class Player{
     constructor(game){
+        //player variables
         this.game = game;
-        this.isDeath = false;
+        this.image = document.getElementById('player');
         this.width = 100;
         this.height = 91.3;
+
+        //position variables
         this.x = 0;
         this.y = this.game.height - this.height - this.game.groundMargin;
+        
+        //movement variables
         this.speed = 0;
         this.maxSpeed = 5;
         this.vy = 0;
         this.weight = 1;
+
+        //animation variables
         this.framex = 0;
         this.framey = 0;
         this.maxFrame = 5;
         this.fps = 20;  
         this.frameInterval = 1000/this.fps;
         this.frameTimer = 0;
-        this.image = document.getElementById('player');
+
+        //state variables
         this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this), new Attacking(this), new Idle(this), new Climbing(this),new Deading(this), new Ball(this)];
+        this.isDeath = false;
         this.currentState = this.states[0];
         this.currentState.enter();
     }
@@ -28,19 +37,18 @@ export class Player{
         if(this.isDeath == false){
             this.currentState.handleInput(input);
             this.x += this.speed;
+            this.y += this.vy;
 
+            //Climbing
             if(input.includes('w')){
                 this.vy = -0.5;
                 this.setState(6)
-            }else if(input.includes(' ')){
+            }else if(input.includes(' ') && this.currentState.getState() == "CLIMBING"){
                 this.vy = 0;
                 this.setState(1);
-            }
-
-            if(this.currentState.getState() == "BALL"){
-                this.vy += 4;
-            }
-
+            }            
+            
+            //horizontal movement
             if(input.includes('ArrowRight'))
                 this.speed = this.maxSpeed;
             else if(input.includes('ArrowLeft'))
@@ -53,13 +61,17 @@ export class Player{
                 this.x = this.game.width - this.width;
         
             //vertical movement
-            this.y += this.vy;
-            if(input.includes('ArrowUp') && this.onGround())
-                this.vy -= 15;
-            else if(!this.onGround() && this.currentState.getState() != "CLIMBING")
+            if(!this.onGround() && this.currentState.getState() != "CLIMBING"){
                 this.vy += this.weight ; 
-            else if(this.currentState.getState() != "CLIMBING")
+                //ball attack
+                if(this.currentState.getState() == "BALL"){
+                    this.vy += 4;
+                }
+            }else if( this.currentState.getState() != "CLIMBING"){
                 this.vy = 0;
+                this.y = this.game.height - this.height - this.game.groundMargin;
+            }
+                
             
             //sprite animation
             if(this.frameTimer > this.frameInterval){
@@ -79,12 +91,12 @@ export class Player{
     }
 
     draw(context){
-        //context.fillRect(this.x, this.y, this.width, this.height);
+        context.fillRect(0, this.game.height - this.game.groundMargin, this.game.width, 1);
         context.drawImage(this.image, this.framex * this.width, this.framey * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
     }
     
     onGround(){
-        return this.y >= this.game.height - this.height - this.game.groundMargin;
+        return this.y + this.speed/2 >= this.game.height - this.height - this.game.groundMargin;
     }
 
     setState(state){
