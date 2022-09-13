@@ -4,6 +4,7 @@ const states = {
     JUMPING: 2,
     FALLING: 3,
     ATTACKING: 4,
+    IDLE: 5
 }
 
 class State{
@@ -52,6 +53,8 @@ export class Running extends State{
             this.player.setState(states.JUMPING);
         } else if(input.includes('a')){
             this.player.setState(states.ATTACKING);
+        }else if(input.includes('ArrowRight') == false && input.includes('ArrowLeft') == false){
+            this.player.setState(states.IDLE);
         }
     }
 }
@@ -69,7 +72,6 @@ export class Jumping extends State{
     }
     handleInput(input){
         if(this.player.vy > this.player.weight){
-            console.log("hallo");
             this.player.setState(states.FALLING);
         } 
     }
@@ -100,11 +102,32 @@ export class Attacking extends State{
     enter(){
         this.player.framex = 0;
         this.player.framey = 7;
-        this.player.maxFrame = 6;
-        console.log(this.getState());
-
+        this.player.maxFrame = 5;
     }
     handleInput(input){
        
+    }
+}
+
+export class Idle extends State{
+    constructor(player){
+        super('IDLE');
+        this.player = player;
+    }
+    enter(){
+        this.player.framex = 0;
+        this.player.framey = 0;
+        this.player.maxFrame = 6;
+    }
+    handleInput(input){
+        if(input.includes('ArrowRight')|| input.includes('ArrowLeft')){
+            this.player.setState(states.RUNNING);
+        }else if(input.includes('ArrowUp')){
+            this.player.setState(states.JUMPING);
+        }else if(input.includes('a')){
+            this.player.setState(states.ATTACKING);
+        }else if(input.includes('ArrowDown')){
+            this.player.setState(states.SITTING);
+        }
     }
 }
