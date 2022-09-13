@@ -1,4 +1,4 @@
-import { Sitting, Running, Jumping, Falling, Attacking, Idle, Climbing, Deading } from "./playerState.js";
+import { Sitting, Running, Jumping, Falling, Attacking, Idle, Climbing, Deading, Ball } from "./playerState.js";
 
 export class Player{
     constructor(game){
@@ -19,7 +19,7 @@ export class Player{
         this.frameInterval = 1000/this.fps;
         this.frameTimer = 0;
         this.image = document.getElementById('player');
-        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this), new Attacking(this), new Idle(this), new Climbing(this),new Deading(this)];
+        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this), new Attacking(this), new Idle(this), new Climbing(this),new Deading(this), new Ball(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
     }
@@ -36,6 +36,11 @@ export class Player{
                 this.vy = 0;
                 this.setState(1);
             }
+
+            if(this.currentState.getState() == "BALL"){
+                this.vy += 4;
+            }
+
             if(input.includes('ArrowRight'))
                 this.speed = this.maxSpeed;
             else if(input.includes('ArrowLeft'))

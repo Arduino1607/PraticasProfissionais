@@ -6,7 +6,8 @@ const states = {
     ATTACKING: 4,
     IDLE: 5,
     CLIMBING: 6,
-    DEADING: 7
+    DEADING: 7,
+    BALL: 8
 }
 
 class State{
@@ -92,7 +93,8 @@ export class Falling extends State{
     handleInput(input){
         if(this.player.onGround()){
             this.player.setState(states.RUNNING);
-        } 
+        }else if(input.includes('ArrowDown'))
+            this.player.setState(states.BALL)
     }
 }
 
@@ -123,6 +125,24 @@ export class Deading extends State{
     }
     handleInput(input){
        
+    }
+}
+
+export class Ball extends State{
+    constructor(player){
+        super('BALL');
+        this.player = player;
+    }
+    enter(){
+        this.player.framex = 0;
+        this.player.framey = 6 ;
+        this.player.maxFrame = 7;
+    }
+    handleInput(input){
+        if(this.player.onGround()){
+
+            this.player.setState(states.RUNNING);
+        }
     }
 }
 
