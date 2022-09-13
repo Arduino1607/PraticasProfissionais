@@ -4,7 +4,9 @@ const states = {
     JUMPING: 2,
     FALLING: 3,
     ATTACKING: 4,
-    IDLE: 5
+    IDLE: 5,
+    CLIMBING: 6,
+    DEADING: 7
 }
 
 class State{
@@ -109,6 +111,36 @@ export class Attacking extends State{
     }
 }
 
+export class Deading extends State{
+    constructor(player){
+        super('DEADING');
+        this.player = player;
+    }
+    enter(){
+        this.player.framex = 0;
+        this.player.framey = 8;
+        this.player.maxFrame = 12;
+    }
+    handleInput(input){
+       
+    }
+}
+
+export class Climbing extends State{
+    constructor(player){
+        super('ATTACKING');
+        this.player = player;
+    }
+    enter(){
+        this.player.framex = 0;
+        this.player.framey = 7;
+        this.player.maxFrame = 5;
+    }
+    handleInput(input){
+       
+    }
+}
+
 export class Idle extends State{
     constructor(player){
         super('IDLE');
@@ -128,6 +160,8 @@ export class Idle extends State{
             this.player.setState(states.ATTACKING);
         }else if(input.includes('ArrowDown')){
             this.player.setState(states.SITTING);
+        }else if(input.includes('d')){
+            this.player.setState(states.DEADING)
         }
     }
 }

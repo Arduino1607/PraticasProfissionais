@@ -1,8 +1,9 @@
-import { Sitting, Running, Jumping, Falling, Attacking, Idle } from "./playerState.js";
+import { Sitting, Running, Jumping, Falling, Attacking, Idle, Climbing, Deading } from "./playerState.js";
 
 export class Player{
     constructor(game){
         this.game = game;
+        this.isDeath = false;
         this.width = 100;
         this.height = 91.3;
         this.x = 0;
@@ -18,13 +19,13 @@ export class Player{
         this.frameInterval = 1000/this.fps;
         this.frameTimer = 0;
         this.image = document.getElementById('player');
-        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this), new Attacking(this), new Idle(this)];
+        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this), new Attacking(this), new Idle(this), new Climbing(this),new Deading(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
     }
 
     update(input, deltaTime){
-
+        if(this.isDeath == false){
         this.currentState.handleInput(input);
         this.x += this.speed;
 
@@ -55,12 +56,14 @@ export class Player{
                 this.framex++;
             else if(this.currentState.getState() == "ATTACKING") 
                 this.setState(5)
+            else if(this.currentState.getState() == "DEADING")
+                this.isDeath = true;
             else 
                 this.framex = 0;
         }else{
             this.frameTimer += deltaTime;
         }
-
+    }
     }
 
     draw(context){
