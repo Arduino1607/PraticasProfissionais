@@ -26,44 +26,51 @@ export class Player{
 
     update(input, deltaTime){
         if(this.isDeath == false){
-        this.currentState.handleInput(input);
-        this.x += this.speed;
+            this.currentState.handleInput(input);
+            this.x += this.speed;
 
-        if(input.includes('ArrowRight'))
-            this.speed = this.maxSpeed;
-        else if(input.includes('ArrowLeft'))
-            this.speed = -this.maxSpeed;
-        else
-            this.speed = 0;
-        if(this.x < 0)
-            this.x = 0;
-        if(this.x > this.game.width - this.width) 
-            this.x = this.game.width - this.width;
-       
-        //vertical movement
-        this.y += this.vy;
-        if(input.includes('ArrowUp') && this.onGround())
-            this.vy -= 15;
-        else if(!this.onGround())
-            this.vy += this.weight ; 
-        else 
-            this.vy = 0;
+            if(input.includes('w')){
+                this.vy = -0.5;
+                this.setState(6)
+            }else if(input.includes(' ')){
+                this.vy = 0;
+                this.setState(1);
+            }
+            if(input.includes('ArrowRight'))
+                this.speed = this.maxSpeed;
+            else if(input.includes('ArrowLeft'))
+                this.speed = -this.maxSpeed;
+            else
+                this.speed = 0;
+            if(this.x < 0)
+                this.x = 0;
+            if(this.x > this.game.width - this.width) 
+                this.x = this.game.width - this.width;
         
-        //sprite animation
-        if(this.frameTimer > this.frameInterval){
-            this.frameTimer = 0;
-            if(this.framex < this.maxFrame-1) 
-                this.framex++;
-            else if(this.currentState.getState() == "ATTACKING") 
-                this.setState(5)
-            else if(this.currentState.getState() == "DEADING")
-                this.isDeath = true;
-            else 
-                this.framex = 0;
-        }else{
-            this.frameTimer += deltaTime;
+            //vertical movement
+            this.y += this.vy;
+            if(input.includes('ArrowUp') && this.onGround())
+                this.vy -= 15;
+            else if(!this.onGround() && this.currentState.getState() != "CLIMBING")
+                this.vy += this.weight ; 
+            else if(this.currentState.getState() != "CLIMBING")
+                this.vy = 0;
+            
+            //sprite animation
+            if(this.frameTimer > this.frameInterval){
+                this.frameTimer = 0;
+                if(this.framex < this.maxFrame-1) 
+                    this.framex++;
+                else if(this.currentState.getState() == "ATTACKING") 
+                    this.setState(5)
+                else if(this.currentState.getState() == "DEADING")
+                    this.isDeath = true;
+                else 
+                    this.framex = 0;
+            }else{
+                this.frameTimer += deltaTime;
+            }
         }
-    }
     }
 
     draw(context){
@@ -76,7 +83,7 @@ export class Player{
     }
 
     setState(state){
-        this.currentState = this.states[state];
-        this.currentState.enter();
+            this.currentState = this.states[state];
+            this.currentState.enter();
     }
 }   

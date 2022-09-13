@@ -128,7 +128,7 @@ export class Deading extends State{
 
 export class Climbing extends State{
     constructor(player){
-        super('ATTACKING');
+        super('CLIMBING');
         this.player = player;
     }
     enter(){
@@ -137,7 +137,9 @@ export class Climbing extends State{
         this.player.maxFrame = 5;
     }
     handleInput(input){
-       
+       if(input.includes('Space')){
+            this.player.setState(states.IDLE);
+       }
     }
 }
 
