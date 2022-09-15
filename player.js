@@ -5,8 +5,8 @@ export class Player{
         //player variables
         this.game = game;
         this.image = document.getElementById('player');
-        this.width = 100;
-        this.height = 91.3;
+        this.width = 96;
+        this.height = 96;
 
         //position variables
         this.x = 0;
@@ -22,20 +22,21 @@ export class Player{
         this.framex = 0;
         this.framey = 0;
         this.maxFrame = 5;
-        this.fps = 20;  
+        this.fps = 5;  
         this.frameInterval = 1000/this.fps;
         this.frameTimer = 0;
 
         //state variables
         this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this), new Attacking(this), new Idle(this), new Climbing(this),new Deading(this), new Ball(this)];
         this.isDeath = false;
-        this.currentState = this.states[0];
+        this.currentState = this.states[5];
         this.currentState.enter();
     }
 
     update(input, deltaTime){
+        this.currentState.handleInput(input);
+        console.log(this.isDeath);
         if(this.isDeath == false){
-            this.currentState.handleInput(input);
             this.x += this.speed;
             this.y += this.vy;
 
@@ -92,7 +93,7 @@ export class Player{
 
     draw(context){
         context.fillRect(0, this.game.height - this.game.groundMargin, this.game.width, 1);
-        context.drawImage(this.image, this.framex * this.width, this.framey * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
+        context.drawImage(this.image, this.framex * 32, this.framey*32, 32, 32, this.x, this.y, this.width, this.height);
     }
     
     onGround(){
