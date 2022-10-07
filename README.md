@@ -26,6 +26,8 @@ O jogo será constituído por quatro fases com chefões e por caminhos (estilo m
 - Mulherzinha da DETEL: Simpática e agradável em seu habitat natual, mas não se engane ela é a grande barreira entre você e o zé roberto.
 - Flávia: In english please! She is the only pearson who can translate the game to any language
 
+![personagens](code/assets/personagens)
+
 # Ferramentas utilizadas
 - React js
 
