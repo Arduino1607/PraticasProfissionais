@@ -30,7 +30,7 @@ O jogo será constituído por quatro fases com chefões e por caminhos (estilo m
 - React js
 
 # Criadores
-- Samuelito(Desenvolvedor)[https://github.com/Arduino1607]
+- [Samuelito](https://github.com/Arduino1607)(Desenvolvedor)
 - Cerci(Desenvolvedora)
 - Ana Clara(Artista)
 - Pedrito(Artista)
