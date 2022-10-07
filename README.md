@@ -31,9 +31,9 @@ O jogo será constituído por quatro fases com chefões e por caminhos (estilo m
 
 # Criadores
 - [Samuelito](https://github.com/Arduino1607)(Desenvolvedor)
-- Cerci(Desenvolvedora)
-- Ana Clara(Artista)
-- Pedrito(Artista)
+- [Cerci](https://github.com/CeciliaMouraMachado)(Desenvolvedora)
+- [Ana Clara](https://github.com/AnaClara264)(Artista)
+- [Pedrito](https://github.com/Pedro-de-Maria)(Artista)
 - Little vini(Artista)
 
 # Inspiração para o desing dos personagens:
