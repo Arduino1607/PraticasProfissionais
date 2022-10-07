@@ -1,4 +1,4 @@
-import { Sitting, Running, Jumping, Falling, Attacking, Idle, Climbing, Deading, Ball } from "../playerState.js";
+import { Sitting, Running, Jumping, Falling, Attacking, Idle, Climbing, Deading, Ball } from "./playerState.js";
 
 export class Player{
     constructor(game){
