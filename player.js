@@ -98,7 +98,7 @@ export class Player{
         /*if(this.speed < 0)
            posx = -1;
         context.scale(-1, 1);*/
-        context.drawImage(this.image,  this.framex * 32, this.framey*32, 32, 32,  this.x , this.y, this.width , this.height);
+        context.drawImage(this.image,  this.framex * 32, (this.framey*32)+1, 32, 32,  this.x , this.y, this.width , this.height);
     }
     
     onGround(){
