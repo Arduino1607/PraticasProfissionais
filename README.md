@@ -1,3 +1,7 @@
+![Github Activity](https://img.shields.io/github/commit-activity/m/Arduino1607/PraticasProfissionais)
+![Contributors](https://img.shields.io/github/contributors/Arduino1607/PraticasProfissionais)
+![Contributors](https://img.shields.io/github/repo-size/Arduino1607/PraticasProfissionais)
+
 # Survive IFCE
 Parabens! Você acabou de entrar no imenso Instituto Federal do Ceará após uma intensa seleção. Porém, agora sim começou o desafio! Tente pegar seu diploma passando por professores extremamente traumáticos, fases suoreendemente estressantes e personagens icônicos nesse incrivel jogo, Survive IFCE.
 
