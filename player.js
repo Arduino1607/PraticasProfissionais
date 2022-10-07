@@ -33,7 +33,7 @@ export class Player{
         this.currentState.enter();
     }
 
-    update(input, deltaTime){
+    update(input, deltaTime, context){
         this.currentState.handleInput(input);
         console.log(this.isDeath);
         if(this.isDeath == false){
@@ -56,6 +56,7 @@ export class Player{
                 this.speed = -this.maxSpeed;
             else
                 this.speed = 0;
+                
             if(this.x < 0)
                 this.x = 0;
             if(this.x > this.game.width - this.width) 
@@ -93,7 +94,11 @@ export class Player{
 
     draw(context){
         context.fillRect(0, this.game.height - this.game.groundMargin, this.game.width, 1);
-        context.drawImage(this.image, this.framex * 32, this.framey*32, 32, 32, this.x, this.y, this.width, this.height);
+        let posx = 1;
+        /*if(this.speed < 0)
+           posx = -1;
+        context.scale(-1, 1);*/
+        context.drawImage(this.image,  this.framex * 32, this.framey*32, 32, 32,  this.x , this.y, this.width , this.height);
     }
     
     onGround(){

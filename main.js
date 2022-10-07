@@ -16,8 +16,8 @@ window.addEventListener('load', function(){
             this.input = new InputHandler();
         }
         
-        update(deltaTime){
-            this.player.update(this.input.keys, deltaTime);
+        update(deltaTime, context){
+            this.player.update(this.input.keys, deltaTime, context);
         }
 
         draw(context){
@@ -34,7 +34,7 @@ window.addEventListener('load', function(){
         //console.log(deltaTime);
         lastTime = timeStamp;
         ctx.clearRect(0,0,canvas.width, canvas.height)
-        game.update(deltaTime);
+        game.update(deltaTime, ctx);
         game.draw(ctx);
         requestAnimationFrame(animate);
     }
