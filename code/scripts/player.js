@@ -35,7 +35,7 @@ export class Player{
 
     update(input, deltaTime, context){
         this.currentState.handleInput(input);
-        console.log(this.isDeath);
+        //console.log(this.isDeath);
         if(this.isDeath == false){
             this.x += this.speed;
             this.y += this.vy;
@@ -105,8 +105,9 @@ export class Player{
         return this.y + this.speed/2 >= this.game.height - this.height - this.game.groundMargin;
     }
 
-    setState(state){
+    setState(state, speed){
             this.currentState = this.states[state];
+            this.game.speed = this.game.MaxSpeed * speed;
             this.currentState.enter();
     }
 }   
