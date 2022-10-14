@@ -50,10 +50,10 @@ export class Player{
                 this.setState(1);
             }            
             this.game.tiles.forEach(tile=>{
-                if((this.x + this.width > tile.x && this.x + this.width < tile.x + 10) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height))
-                this.x = tile.x - this.width;
-                if((this.x < tile.x + tile.width && this.x > tile.x + tile.width - 10) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height))
-                    this.x = tile.x + tile.width;   
+                if((this.x + this.width > tile.x + 30 && this.x + this.width < tile.x + 40) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height))
+                this.x = tile.x - this.width + 30;
+                if((this.x < tile.x + tile.width - 30 && this.x > tile.x + tile.width - 40) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height))
+                    this.x = tile.x + tile.width - 30;   
             });
             
             //horizontal movement
@@ -67,10 +67,10 @@ export class Player{
             
         
             console.log(this.x, this.game.tile.x, this.game.tile.x + this.game.tile.width)
-            if(this.x < 0)
-                this.x = 0;
-            if(this.x > this.game.width - this.width) 
-                this.x = this.game.width - this.width;
+            if(this.x + 30< 0)
+                this.x = -30;
+            if(this.x > this.game.width - this.width + 30) 
+                this.x = this.game.width - this.width + 30;
         
             //vertical movement
             if(!this.onGround() && this.currentState.getState() != "CLIMBING"){
@@ -108,14 +108,14 @@ export class Player{
         /*if(this.speed < 0)
            posx = -1;
         context.scale(-1, 1);*/
-        context.fillRect(this.x , this.y, this.width , this.height);
+        //context.fillRect(this.x , this.y, this.width , this.height);
         context.drawImage(this.image,  this.framex * 32, (this.framey*32)+1, 32, 32,  this.x , this.y, this.width , this.height);
     }
     
     onGround(){
         var cond = false;
         this.game.tiles.forEach(tile=>{
-            cond = cond || ((this.x + this.width > tile.x && this.x < tile.x + tile.width ) && (this.y + this.height >= tile.y && this.y + this.height < tile.y + 10));
+            cond = cond || ((this.x + this.width > tile.x + 30 && this.x < tile.x + tile.width - 30) && (this.y + this.height >= tile.y && this.y + this.height < tile.y + 10));
         });
         return this.y + this.speed/2 >= this.game.height - this.height - this.game.groundMargin || cond;
     }
