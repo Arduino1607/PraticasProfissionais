@@ -1,6 +1,7 @@
 import {Player} from './player.js'
 import {InputHandler} from './input.js'
 import {Background} from './background.js'
+import {Tile} from './tile.js'
 
 
 window.addEventListener('load', function(){
@@ -19,6 +20,9 @@ window.addEventListener('load', function(){
             this.player = new Player(this);
             this.background = new Background(this);
             this.input = new InputHandler();
+            this.tile = new Tile(120, 230, 100,200);
+            this.tile1 = new Tile(350, 230, 100,80);
+            this.tiles = [this.tile, this.tile1];
         }
         
         update(deltaTime, context){
@@ -27,7 +31,10 @@ window.addEventListener('load', function(){
         }
 
         draw(context){
-            this.background.draw(context);
+            this.tiles.forEach(tile=>{
+                tile.draw(context)
+            })
+            //this.background.draw(context);
             this.player.draw(context);
         }
     }

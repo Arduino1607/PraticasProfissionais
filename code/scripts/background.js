@@ -37,7 +37,7 @@ export class Background{
         this.backgroundLayers= [this.layer1,this.layer2,this.layer3,this.layer4,this.layer5];
     }
     update(){
-        console.log(this.layer1);
+        //console.log(this.layer1);
         this.backgroundLayers.forEach(layer=>{
             layer.update();
         })

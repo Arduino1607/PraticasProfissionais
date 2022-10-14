@@ -74,7 +74,14 @@ export class Jumping extends State{
     handleInput(input){
         if(this.player.vy > this.player.weight){
             this.player.setState(states.FALLING,1);
-        } 
+        }
+        this.player.game.tiles.forEach(tile=>{
+            if((this.player.x + this.player.width > tile.x && this.player.x < tile.x + tile.width ) && (this.player.y  < tile.y + tile.height && this.player.y + this.player.height >= tile.y - 10)){
+                console.log("True")
+                this.player.vy = this.player.weight;
+                this.player.setState(states.FALLING);           
+            }
+        });
     }
 }
 
