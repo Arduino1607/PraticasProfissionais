@@ -115,7 +115,7 @@ export class Player{
     onGround(){
         var cond = false;
         this.game.tiles.forEach(tile=>{
-            cond = cond || ((this.x + this.width > tile.x + 30 && this.x < tile.x + tile.width - 30) && (this.y + this.height >= tile.y && this.y + this.height < tile.y + 10));
+            cond = cond || ((this.x + this.width > tile.x + 30 && this.x < tile.x + tile.width - 30) && (this.y + this.height -  5 >= tile.y && this.y + this.height  < tile.y + 20));
         });
         return this.y + this.speed/2 >= this.game.height - this.height - this.game.groundMargin || cond;
     }
