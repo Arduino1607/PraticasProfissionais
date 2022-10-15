@@ -4,10 +4,12 @@ export class Tile{
         this.y = y;
         this.width = width;
         this.height = height;
+       
     }
 
     update(speed){
         this.x -= speed;
+        
     }
 
     draw(context){

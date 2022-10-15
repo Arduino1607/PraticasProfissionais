@@ -1,4 +1,5 @@
 import { Sitting, Running, Jumping, Falling, Attacking, Idle, Climbing, Deading, Ball } from "./playerState.js";
+import { Shoot } from "./shoot.js";
 
 export class Player{
     constructor(game){
@@ -31,10 +32,13 @@ export class Player{
         this.isDeath = false;
         this.currentState = this.states[5];
         this.currentState.enter();
+
+        this.shoots = [];
     }
 
     update(input, deltaTime, context){
         this.currentState.handleInput(input);
+        
         //console.log(this.x);
         if(this.isDeath == false){
             this.x += this.speed;
@@ -45,7 +49,7 @@ export class Player{
                     
             this.game.tiles.forEach(tile=>{
                 if((this.x + this.width > tile.x + 30 && this.x + this.width < tile.x + 40) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height))
-                this.x = tile.x - this.width + 30;
+                    this.x = tile.x - this.width + 30;
                 if((this.x < tile.x + tile.width - 30 && this.x > tile.x + tile.width - 40) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height))
                     this.x = tile.x + tile.width - 30;   
             });
@@ -82,9 +86,11 @@ export class Player{
                 this.frameTimer = 0;
                 if(this.framex < this.maxFrame-1) 
                     this.framex++;
-                else if(this.currentState.getState() == "ATTACKING") 
+                else if(this.currentState.getState() == "ATTACKING") {
+                    var s = new Shoot(this.x + this.width/2,this.y+this.height/2, 35, 12, this);
+                    this.shoots.push(s);
                     this.setState(5)
-                else if(this.currentState.getState() == "DEADING")
+                }else if(this.currentState.getState() == "DEADING")
                     this.isDeath = true;
                 else 
                     this.framex = 0;
@@ -92,9 +98,15 @@ export class Player{
                 this.frameTimer += deltaTime;
             }
         }
+        
     }
 
     draw(context){
+        var count = 0;
+        console.log(this.shoots)
+        this.shoots.forEach(shoot =>{shoot.update();});
+        this.shoots.forEach(shoot =>{shoot.draw(context);});
+        this.shoots = this.shoots.filter(shoot => !shoot.marked);
         context.fillRect(0, this.game.height - this.game.groundMargin, this.game.width, 1);
         let posx = 1;
         /*if(this.speed < 0)
