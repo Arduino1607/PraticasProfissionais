@@ -3,7 +3,7 @@ import {InputHandler} from './input.js'
 import {Background} from './background.js'
 import {Tile} from './tile.js'
 import { Stairs } from './stairs.js';
-
+import { Thorns } from './thorns.js';
 
 window.addEventListener('load', function(){
     const canvas = document.getElementById('canvas1');
@@ -22,7 +22,7 @@ window.addEventListener('load', function(){
             this.background = new Background(this);
             this.input = new InputHandler();
             this.tile = new Tile(520, 250, 250,140);
-            this.tile1 = new Tile(920, 250, 250,70);
+            this.tile1 = new Tile(920, 150, 250,70);
             this.tile2 = new Tile(1420, 250, 250,70);
             this.tile3 = new Tile(1820, 250, 250,70);
             this.tile4 = new Tile(2220, 250, 250,70);
@@ -32,6 +32,7 @@ window.addEventListener('load', function(){
             this.tile8 = new Tile(0, this.height - this.groundMargin, 3320,100);
             this.tiles = [this.tile8,this.tile, this.tile1, this.tile2, this.tile3, this.tile4, this.tile5, this.tile6, this.tile7];
             this.stairs = [new Stairs(420,250,40,175), new Stairs(820,250,40,175)];
+            this.thorns = [new Thorns(350, 250, 100,100)];
             this.speedTile = 0;
         }
         
@@ -39,6 +40,9 @@ window.addEventListener('load', function(){
             this.background.update();
             this.tiles.forEach(tile=>{
                 tile.update(this.speedTile);
+            })
+            this.thorns.forEach(thorn=>{
+                thorn.update(this.speedTile);
             })
             this.stairs.forEach(s=>{
                 s.update(this.speedTile);
@@ -52,6 +56,9 @@ window.addEventListener('load', function(){
             })
             this.stairs.forEach(s=>{
                 s.draw(context)
+            })
+            this.thorns.forEach(thorn=>{
+                thorn.draw(context);
             })
             //this.background.draw(context);
             this.player.draw(context);

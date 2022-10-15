@@ -132,6 +132,7 @@ export class Deading extends State{
     handleInput(input){
        if(input.includes('Enter')){
         this.player.y = 0;
+        this.player.x = this.player.x - 120;
         this.player.isDeath = false;
         this.player.setState(states.FALLING, 1);
        }

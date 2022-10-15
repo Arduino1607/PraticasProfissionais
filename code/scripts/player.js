@@ -87,7 +87,17 @@ export class Player{
             //vertical movement
             let og = this.onGround();
             if( og == 0 && this.currentState.getState() != "CLIMBING"){
-                this.vy += this.weight ; 
+                this.vy += this.weight ;
+                this.game.thorns.forEach(thorn=>{
+                    if((this.x + this.width > thorn.x + 30 && this.x < thorn.x + thorn.width - 30) && (this.y + this.height + this.vy >= thorn.y && this.y + this.height + this.vy < thorn.y + thorn.height)){
+                        this.isDeath = true;
+                        this.setState(7);
+                    }
+                    if(this.y > 1000){
+                        this.isDeath = true;
+                        this.setState(7);
+                    }
+                });
             }else if(this.currentState.getState() != "CLIMBING"){
                 this.vy = 0;
                 this.y = og - this.height;
@@ -95,23 +105,23 @@ export class Player{
                 
             //console.log(this.onGround());
             //sprite animation
-            if(this.frameTimer > this.frameInterval){
-                this.frameTimer = 0;
-                if(this.framex < this.maxFrame-1) 
-                    this.framex++;
-                else if(this.currentState.getState() == "ATTACKING") {
-                    var s = new Shoot(this.x + this.width/2,this.y+this.height/2, 35, 12, this);
-                    this.shoots.push(s);
-                    this.setState(5)
-                }else if(this.currentState.getState() == "DEADING")
-                    this.isDeath = true;
-                else 
-                    this.framex = 0;
-            }else{
-                this.frameTimer += deltaTime;
-            }
+            
         }
-        
+        if(this.frameTimer > this.frameInterval){
+            this.frameTimer = 0;
+            if(this.framex < this.maxFrame-1) 
+                this.framex++;
+            else if(this.currentState.getState() == "ATTACKING") {
+                var s = new Shoot(this.x + this.width/2,this.y+this.height/2, 35, 12, this);
+                this.shoots.push(s);
+                this.setState(5)
+            }else if(this.currentState.getState() == "DEADING")
+                this.isDeath = true;
+            else 
+                this.framex = 0;
+        }else{
+            this.frameTimer += deltaTime;
+        }
     }
 
     draw(context){
