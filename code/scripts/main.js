@@ -7,7 +7,7 @@ import {Tile} from './tile.js'
 window.addEventListener('load', function(){
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
-    canvas.width = 500;
+    canvas.width = 1350;
     canvas.height = 500;
 
     class Game{
@@ -20,13 +20,25 @@ window.addEventListener('load', function(){
             this.player = new Player(this);
             this.background = new Background(this);
             this.input = new InputHandler();
-            this.tile = new Tile(120, 230, 100,200);
-            this.tile1 = new Tile(350, 230, 100,80);
-            this.tiles = [this.tile, this.tile1];
+            this.tile = new Tile(520, 250, 250,140);
+            this.tile1 = new Tile(920, 250, 250,70);
+            this.tile2 = new Tile(1420, 250, 250,70);
+            this.tile3 = new Tile(1820, 250, 250,70);
+            this.tile4 = new Tile(2220, 250, 250,70);
+            this.tile5 = new Tile(2620, 250, 250,70);
+            this.tile6 = new Tile(2920, 250, 250,70);
+            this.tile7 = new Tile(3320, 250, 250,70);
+            this.tile8 = new Tile(0, this.height - this.groundMargin, 3320,100);
+            this.tiles = [this.tile8,this.tile, this.tile1, this.tile2, this.tile3, this.tile4, this.tile5, this.tile6, this.tile7];
+            
+            this.speedTile = 0;
         }
         
         update(deltaTime, context){
             this.background.update();
+            this.tiles.forEach(tile=>{
+                tile.update(this.speedTile);
+            })
             this.player.update(this.input.keys, deltaTime, context);
         }
 

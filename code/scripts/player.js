@@ -39,16 +39,16 @@ export class Player{
         if(this.isDeath == false){
             this.x += this.speed;
             this.y += this.vy;
-
+            this.game.speedTile = 0;
 
             //Climbing
-            if(input.includes('w')){
+           /* if(input.includes('w')){
                 this.vy = -0.5;
                 this.setState(6)
             }else if(input.includes(' ') && this.currentState.getState() == "CLIMBING"){
                 this.vy = 0;
                 this.setState(1);
-            }            
+            }  */          
             this.game.tiles.forEach(tile=>{
                 if((this.x + this.width > tile.x + 30 && this.x + this.width < tile.x + 40) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height))
                 this.x = tile.x - this.width + 30;
@@ -69,22 +69,20 @@ export class Player{
             console.log(this.x, this.game.tile.x, this.game.tile.x + this.game.tile.width)
             if(this.x + 30< 0)
                 this.x = -30;
-            if(this.x > this.game.width - this.width + 30) 
-                this.x = this.game.width - this.width + 30;
-        
+            if(this.x > (this.game.width - this.width + 30) / 2){ 
+                this.x = (this.game.width - this.width + 30)/2;
+                this.game.speedTile = this.maxSpeed;
+            }
             //vertical movement
-            if(!this.onGround() && this.currentState.getState() != "CLIMBING"){
+            let og = this.onGround();
+            if( og == 0){
                 this.vy += this.weight ; 
-                //ball attack
-                if(this.currentState.getState() == "BALL"){
-                    this.vy += 4;
-                }
             }else{
                 this.vy = 0;
-                //this.y = this.game.height - this.height - this.game.groundMargin;
+                this.y = og - this.height;
             }
                 
-            
+            console.log(this.onGround());
             //sprite animation
             if(this.frameTimer > this.frameInterval){
                 this.frameTimer = 0;
@@ -113,11 +111,14 @@ export class Player{
     }
     
     onGround(){
-        var cond = false;
+        let g = 0;
         this.game.tiles.forEach(tile=>{
-            cond = cond || ((this.x + this.width > tile.x + 30 && this.x < tile.x + tile.width - 30) && (this.y + this.height -  5 >= tile.y && this.y + this.height  < tile.y + 20));
+            
+            if((this.x + this.width > tile.x + 30 && this.x < tile.x + tile.width - 30) && (this.y + this.height + this.speed >= tile.y && this.y + this.height + this.speed < tile.y + tile.height)){
+                g = tile.y;
+            }
         });
-        return this.y + this.speed/2 >= this.game.height - this.height - this.game.groundMargin || cond;
+        return /*this.y + this.speed/2 >= this.game.height - this.height - this.game.groundMargin ||*/ g;
     }
 
     setState(state, speed){

@@ -1,13 +1,13 @@
 export class Tile{
     constructor(x, y, width, height){
-        this.x = x;
+        this.x = x; 
         this.y = y;
         this.width = width;
         this.height = height;
     }
 
-    update(){
-
+    update(speed){
+        this.x -= speed;
     }
 
     draw(context){

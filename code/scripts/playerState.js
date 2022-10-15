@@ -96,7 +96,7 @@ export class Falling extends State{
         this.player.maxFrame = 1;
     }
     handleInput(input){
-        if(this.player.onGround()){
+        if(this.player.onGround() != 0){
             this.player.setState(states.RUNNING, 1);
         }/*else if(input.includes('ArrowDown'))
             this.player.setState(states.BALL)*/
