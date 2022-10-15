@@ -7,8 +7,9 @@ export class Stairs{
        
     }
 
-    update(speed){
+    update(speed, speedy){
         this.x -= speed;
+        this.y -= speedy;
     }
 
     draw(context){

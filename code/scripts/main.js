@@ -28,24 +28,25 @@ window.addEventListener('load', function(){
             this.tile4 = new Tile(2220, 250, 250,70);
             this.tile5 = new Tile(2620, 250, 250,70);
             this.tile6 = new Tile(2920, 250, 250,70);
-            this.tile7 = new Tile(3320, 250, 250,70);
+            this.tile7 = new Tile(0, this.height - this.groundMargin + 400, 3320,100);
             this.tile8 = new Tile(0, this.height - this.groundMargin, 3320,100);
             this.tiles = [this.tile8,this.tile, this.tile1, this.tile2, this.tile3, this.tile4, this.tile5, this.tile6, this.tile7];
-            this.stairs = [new Stairs(420,250,40,175), new Stairs(820,250,40,175)];
+            this.stairs = [new Stairs(420,250,40,175), new Stairs(820,250,40,175) , new Stairs(0, this.height - this.groundMargin, 100,410)];
             this.thorns = [new Thorns(350, 250, 100,100)];
             this.speedTile = 0;
+            this.speedTileY = 0;
         }
         
         update(deltaTime, context){
             this.background.update();
             this.tiles.forEach(tile=>{
-                tile.update(this.speedTile);
+                tile.update(this.speedTile, this.speedTileY);
             })
             this.thorns.forEach(thorn=>{
-                thorn.update(this.speedTile);
+                thorn.update(this.speedTile, this.speedTileY);
             })
             this.stairs.forEach(s=>{
-                s.update(this.speedTile);
+                s.update(this.speedTile, this.speedTileY);
             })
             this.player.update(this.input.keys, deltaTime, context);
         }
