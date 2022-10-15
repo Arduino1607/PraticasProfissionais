@@ -66,7 +66,8 @@ export class Jumping extends State{
         this.player = player;
     }
     enter(){
-        if(this.player.onGround()) this.player.vy -= 20;
+        if(this.player.onGround()) 
+            this.player.vy -= 20;
         this.player.framex = 0;
         this.player.framey = 2;
         this.player.maxFrame = 2;
@@ -171,10 +172,10 @@ export class Climbing extends State{
         });
         console.log(t);
         if(t == false){
-            this.player.vy = -0.5
+            this.player.vy = -1;
          }else{
             this.player.y += 20;
-            this.player.vy = 0.5;
+            this.player.vy = 1;
          } 
     }
     handleInput(input){
@@ -197,8 +198,6 @@ export class Idle extends State{
     handleInput(input){
         if(input.includes('ArrowRight')|| input.includes('ArrowLeft')){
             this.player.setState(states.RUNNING,1);
-        }else if(input.includes('ArrowUp')){
-            this.player.setState(states.JUMPING,1);
         }else if(input.includes('a')){
             this.player.setState(states.ATTACKING,0);
         }/*else if(input.includes('ArrowDown')){
@@ -210,11 +209,18 @@ export class Idle extends State{
                 if((this.player.x + this.player.width > stair.x + 30 && this.player.x < stair.x + stair.width - 30) && (this.player.y + this.player.height  >= stair.y && this.player.y + this.player.height  < stair.y + stair.height)){
                     this.player.setState(states.CLIMBING);
                 }
-                /*if((this.player.x + this.player.width/2 + 10 > stair.x && this.player.x + this.player.width/2 - 10 < stair.x + stair.width) && (this.player.y + this.player.height  >= stair.y && this.player.y + this.player.height  < stair.y + 20)){
-                    console.log("True");
-                    this.player.setState(states.CLIMBING);
-                }*/
             });
+        }else if(input.includes('ArrowUp')){
+            var s = false;
+            this.player.game.stairs.forEach(stair=>{
+                if((this.player.x + this.player.width > stair.x + 30 && this.player.x < stair.x + stair.width - 30) && (this.player.y + this.player.height  >= stair.y && this.player.y + this.player.height  < stair.y + stair.height)){
+                    s = true;
+                }
+            });
+            if(!s)
+                this.player.setState(states.JUMPING,1);
+            else
+                this.player.setState(states.CLIMBING);
         }
     }
 }

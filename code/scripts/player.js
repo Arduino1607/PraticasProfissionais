@@ -48,10 +48,11 @@ export class Player{
             var s = false;
             if(this.currentState.getState() == 'CLIMBING'){
             this.game.stairs.forEach(stair=>{
-                if(((this.x + this.width/2 + 10 > stair.x && this.x + this.width/2 - 10 < stair.x + stair.width) && (this.y + this.height  >= stair.y && this.y + this.height  < stair.y + stair.height))){
+                if(((this.x + this.width/2 - 10 > stair.x && this.x + this.width/2 + 10 < stair.x + stair.width) && (this.y + this.height  >= stair.y && this.y + this.height  < stair.y + stair.height))){
                     s = true;
                 }
             });
+            console.log("eai: ", s);
             if(!s){
                 this.setState(5);
             }
