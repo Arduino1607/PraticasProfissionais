@@ -2,6 +2,7 @@ import {Player} from './player.js'
 import {InputHandler} from './input.js'
 import {Background} from './background.js'
 import {Tile} from './tile.js'
+import { Stairs } from './stairs.js';
 
 
 window.addEventListener('load', function(){
@@ -30,7 +31,7 @@ window.addEventListener('load', function(){
             this.tile7 = new Tile(3320, 250, 250,70);
             this.tile8 = new Tile(0, this.height - this.groundMargin, 3320,100);
             this.tiles = [this.tile8,this.tile, this.tile1, this.tile2, this.tile3, this.tile4, this.tile5, this.tile6, this.tile7];
-            
+            this.stairs = [new Stairs(420,250,40,175), new Stairs(820,250,40,175)];
             this.speedTile = 0;
         }
         
@@ -39,12 +40,18 @@ window.addEventListener('load', function(){
             this.tiles.forEach(tile=>{
                 tile.update(this.speedTile);
             })
+            this.stairs.forEach(s=>{
+                s.update(this.speedTile);
+            })
             this.player.update(this.input.keys, deltaTime, context);
         }
 
         draw(context){
             this.tiles.forEach(tile=>{
                 tile.draw(context)
+            })
+            this.stairs.forEach(s=>{
+                s.draw(context)
             })
             //this.background.draw(context);
             this.player.draw(context);

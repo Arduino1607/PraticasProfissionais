@@ -45,6 +45,18 @@ export class Player{
             this.y += this.vy;
             this.game.speedTile = 0;
 
+            var s = false;
+            if(this.currentState.getState() == 'CLIMBING'){
+            this.game.stairs.forEach(stair=>{
+                if(((this.x + this.width/2 + 10 > stair.x && this.x + this.width/2 - 10 < stair.x + stair.width) && (this.y + this.height  >= stair.y && this.y + this.height  < stair.y + stair.height))){
+                    s = true;
+                }
+            });
+            if(!s){
+                this.setState(5);
+            }
+            }   
+            
             console.log(this.currentState.getState());
                     
             this.game.tiles.forEach(tile=>{
@@ -64,7 +76,7 @@ export class Player{
             
             
         
-            console.log(this.y)
+            //console.log(this.y)
             if(this.x + 30< 0)
                 this.x = -30;
             if(this.x > (this.game.width - this.width + 30) / 2){ 
@@ -80,7 +92,7 @@ export class Player{
                 this.y = og - this.height;
             }
                 
-            console.log(this.onGround());
+            //console.log(this.onGround());
             //sprite animation
             if(this.frameTimer > this.frameInterval){
                 this.frameTimer = 0;
@@ -103,7 +115,7 @@ export class Player{
 
     draw(context){
         var count = 0;
-        console.log(this.shoots)
+        //console.log(this.shoots)
         this.shoots.forEach(shoot =>{shoot.update();});
         this.shoots.forEach(shoot =>{shoot.draw(context);});
         this.shoots = this.shoots.filter(shoot => !shoot.marked);
@@ -119,9 +131,13 @@ export class Player{
     onGround(){
         let g = 0;
         this.game.tiles.forEach(tile=>{
-            
             if((this.x + this.width > tile.x + 30 && this.x < tile.x + tile.width - 30) && (this.y + this.height + this.vy >= tile.y && this.y + this.height + this.vy < tile.y + tile.height)){
                 g = tile.y;
+            }
+        });
+        this.game.stairs.forEach(stair=>{
+            if((this.x + this.width/2 + 10 > stair.x && this.x + this.width/2 - 10 < stair.x + stair.width) && (this.y + this.height  >= stair.y && this.y + this.height  < stair.y + 20)){
+                g = stair.y;
             }
         });
         return /*this.y + this.speed/2 >= this.game.height - this.height - this.game.groundMargin ||*/ g;
