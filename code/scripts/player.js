@@ -35,20 +35,14 @@ export class Player{
 
     update(input, deltaTime, context){
         this.currentState.handleInput(input);
-        console.log(this.x);
+        //console.log(this.x);
         if(this.isDeath == false){
             this.x += this.speed;
             this.y += this.vy;
             this.game.speedTile = 0;
 
-            //Climbing
-           /* if(input.includes('w')){
-                this.vy = -0.5;
-                this.setState(6)
-            }else if(input.includes(' ') && this.currentState.getState() == "CLIMBING"){
-                this.vy = 0;
-                this.setState(1);
-            }  */          
+            console.log(this.currentState.getState());
+                    
             this.game.tiles.forEach(tile=>{
                 if((this.x + this.width > tile.x + 30 && this.x + this.width < tile.x + 40) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height))
                 this.x = tile.x - this.width + 30;
@@ -66,7 +60,7 @@ export class Player{
             
             
         
-            console.log(this.x, this.game.tile.x, this.game.tile.x + this.game.tile.width)
+            console.log(this.y)
             if(this.x + 30< 0)
                 this.x = -30;
             if(this.x > (this.game.width - this.width + 30) / 2){ 
@@ -75,9 +69,9 @@ export class Player{
             }
             //vertical movement
             let og = this.onGround();
-            if( og == 0){
+            if( og == 0 && this.currentState.getState() != "CLIMBING"){
                 this.vy += this.weight ; 
-            }else{
+            }else if(this.currentState.getState() != "CLIMBING"){
                 this.vy = 0;
                 this.y = og - this.height;
             }
@@ -114,7 +108,7 @@ export class Player{
         let g = 0;
         this.game.tiles.forEach(tile=>{
             
-            if((this.x + this.width > tile.x + 30 && this.x < tile.x + tile.width - 30) && (this.y + this.height + this.speed >= tile.y && this.y + this.height + this.speed < tile.y + tile.height)){
+            if((this.x + this.width > tile.x + 30 && this.x < tile.x + tile.width - 30) && (this.y + this.height + this.vy >= tile.y && this.y + this.height + this.vy < tile.y + tile.height)){
                 g = tile.y;
             }
         });

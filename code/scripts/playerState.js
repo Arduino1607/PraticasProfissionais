@@ -163,9 +163,10 @@ export class Climbing extends State{
         this.player.framex = 0;
         this.player.framey = 3;
         this.player.maxFrame = 2;
+        this.player.vy = -0.5;
     }
     handleInput(input){
-       if(input.includes('Space')){
+       if(input.includes(' ')){
             this.player.setState(states.IDLE,0);
        }
     }
@@ -192,6 +193,8 @@ export class Idle extends State{
             this.player.setState(states.SITTING);
         }*/else if(input.includes('d')){
             this.player.setState(states.DEADING,0)
+        } else if(input.includes('w')){
+            this.player.setState(states.CLIMBING);
         }
     }
 }
