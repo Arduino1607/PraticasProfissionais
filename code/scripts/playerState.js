@@ -135,6 +135,20 @@ export class Deading extends State{
         this.player.x = this.player.x - 120;
         this.player.isDeath = false;
         this.player.setState(states.FALLING, 1);
+        this.player.game.tiles.forEach((tile)=>{
+            tile.x += this.player.game.CameraX;
+            tile.y += this.player.game.CameraY;
+        });
+        this.player.game.stairs.forEach((tile)=>{
+            tile.x += this.player.game.CameraX;
+            tile.y += this.player.game.CameraY;
+        });
+        this.player.game.thorns.forEach((tile)=>{
+            tile.x += this.player.game.CameraX;
+            tile.y += this.player.game.CameraY;
+        });
+        this.player.game.CameraX = 0;
+        this.player.x = this.player.game.beginX; 
        }
     }
 }

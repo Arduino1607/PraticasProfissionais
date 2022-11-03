@@ -4,7 +4,7 @@ export class Thorns{
         this.y = y;
         this.width = width;
         this.height = height;
-       
+        this.image = document.getElementById("Mapa");
     }
 
     update(speed, speedy){
@@ -13,7 +13,11 @@ export class Thorns{
     }
 
     draw(context){
+        context.save();
+        context.fillStyle = "green";
         context.fillRect(this.x, this.y, this.width, this.height);
+        
+        context.restore();
     }
 
 }

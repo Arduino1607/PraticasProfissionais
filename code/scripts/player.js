@@ -1,3 +1,5 @@
+//TODO corrigir a resolução do personagem
+//TODO Transferir o controle de estado para os tiles
 import {
   Sitting,
   Running,
@@ -20,7 +22,7 @@ export class Player {
     this.height = 96;
 
     //position variables
-    this.x = 0;
+    this.x = 50;
     this.y = this.game.height - this.height - this.game.groundMargin;
 
     //movement variables
@@ -58,14 +60,13 @@ export class Player {
 
   update(input, deltaTime, context) {
     this.currentState.handleInput(input);
-
+    console.log(this.CameraX);
+    //this.game.speedTileY = 0;
     //console.log(this.x);
     if (this.isDeath == false) {
       this.x += this.speed;
       this.y += this.vy;
       this.game.speedTile = 0;
-      this.game.speedTileY = 0;
-
       var s = false;
       if (this.currentState.getState() == "CLIMBING") {
         if(this.y + this.height >= this.game.height - this.game.groundMargin){
@@ -118,14 +119,21 @@ export class Player {
 
       //console.log(this.y)
       if (this.x + 30 < 0) this.x = -30;
-      if (this.x > (this.game.width - this.width + 30) / 2) {
-        this.x = (this.game.width - this.width + 30) / 2;
-        this.game.speedTile = this.maxSpeed;
+      if(this.game.CameraX < this.game.end){
+        if (this.x > (this.game.width - this.width + 30) / 2) {
+          this.x = (this.game.width - this.width + 30) / 2;
+          this.game.speedTile = this.maxSpeed;
+        }
       }
       //vertical movement
       let og = this.onGround();
       if (og == 0 && this.currentState.getState() != "CLIMBING") {
-        this.vy += this.weight;
+        if(this.y + this.height >= this.game.height - this.game.groundMargin){
+          this.y = this.game.height - this.game.groundMargin - this.height;
+          this.game.speedTileY += this.weight;
+        }else {
+          this.vy += this.weight;
+        }
         this.game.thorns.forEach((thorn) => {
           if (
             this.x + this.width > thorn.x + 30 &&
@@ -134,6 +142,7 @@ export class Player {
             this.y + this.height + this.vy < thorn.y + thorn.height
           ) {
             this.isDeath = true;
+            this.game.speedTileY = 0;
             this.setState(7);
           }
           if (this.y > 1500) {
@@ -141,9 +150,11 @@ export class Player {
             this.setState(7);
           }
         });
+        
       } else if (this.currentState.getState() != "CLIMBING") {
         this.vy = 0;
         this.y = og - this.height;
+        this.game.speedTileY = 0;
       }
 
       //console.log(this.onGround());

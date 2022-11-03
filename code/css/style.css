@@ -2,6 +2,7 @@
     margin: 0 ;
     padding:0;
     box-sizing: border-box;
+    
 }
 
 #canvas1 {
@@ -14,6 +15,6 @@
     max-height: 100%;
 }
 
-#player, #layer1,#layer2,#layer3,#layer4,#layer5{
+#player, #background,#layer1,#layer2,#layer3,#layer4,#layer5, #Mapa{
     display: none;
 }
