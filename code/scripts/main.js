@@ -27,7 +27,8 @@ window.addEventListener("load", function () {
       this.CameraX = 0;
       this.CameraY = 0;
       this.tiles = [
-        new Tile(0, this.height - this.groundMargin-602, 66, 602, 0, 86, 32, 306),
+        new Tile(66, this.height - this.groundMargin-560, 3200, 270, 106, 66, 1600, 135),
+        new Tile(0, this.height - this.groundMargin-560, 66, 560, 0, 66, 32, 280),
         new Tile(0, this.height - this.groundMargin, 580, 510, 0, 384, 290, 255),
         new Tile(580+64, this.height - this.groundMargin, 792, 192, 320, 383, 353, 127),
         new Tile(580, this.height - this.groundMargin + 448, 300, 66, 288, 607, 97, 35),
@@ -36,21 +37,22 @@ window.addEventListener("load", function () {
         new Tile(1496, this.height - this.groundMargin, 128, 513,704,385,64,255),
         new Tile(1624, this.height - this.groundMargin + 324, 324, 188,769,546,162,94),
         new Tile(1948, this.height - this.groundMargin + 260, 66, 254,930,514,33,127),
-        new Tile(2014, this.height - this.groundMargin + 198, 188, 310,962,482,94,158),
+        new Tile(2014, this.height - this.groundMargin + 198, 188, 314,962,482,94,158),
         new Tile(2080+188+33, this.height - this.groundMargin + 198, 132, 25,1089,481,60,10),
         new Tile(2499, this.height - this.groundMargin + 198,  132, 25,1089,481,60,10),
         new Tile(2499+132+99, this.height - this.groundMargin + 198,  64, 25,1313,481,32,10),
         new Tile(2858, this.height - this.groundMargin + 198, 386, 320,1377,481,193,160),
-        new Tile(2858+386,this.height - this.groundMargin - 572, 60, 1088,1570,96,30,544),
+        new Tile(2858+386,this.height - this.groundMargin - 572, 60, 1086,1570,96,30,544),
       ];
       this.stairs = [
+        //new Stairs(100, this.height - this.groundMargin - 500, 64, 650,288,385,32,224),
         new Stairs(580, this.height - this.groundMargin, 64, 450,288,385,32,224),
         new Stairs(1436, this.height - this.groundMargin, 64, 450,672,386,32,224),
       ];
       this.thorns = [
-        //new Thorns(900, this.height - this.groundMargin + 25 + 400, 180, 100),
-        //new Thorns(1480, this.height - this.groundMargin + 25 + 400, 200, 100),
-        //new Thorns(2980, this.height - this.groundMargin + 100 + 200, 1075, 100),
+        new Thorns(580+300, this.height - this.groundMargin + 448 + 37,130, 25, 385, 630, 65,10),
+        new Thorns(1008+130, this.height - this.groundMargin + 448 + 37, 130, 25,513,630,65,10),
+        new Thorns(2014+188, this.height - this.groundMargin + 198 + 310 - 20, 658, 25,1057,630,320,10),
       ];
       this.speedTile = 0;
       this.speedTileY = 0;

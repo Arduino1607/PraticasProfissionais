@@ -1,10 +1,14 @@
 export class Thorns{
-    constructor(x, y, width, height){
+    constructor(x, y, width, height, xi, yi, xf, yf){
         this.x = x; 
         this.y = y;
         this.width = width;
         this.height = height;
         this.image = document.getElementById("Mapa");
+        this.xi = xi;
+        this.yi = yi;
+        this.xf = xf;
+        this.yf = yf;
     }
 
     update(speed, speedy){
@@ -13,11 +17,17 @@ export class Thorns{
     }
 
     draw(context){
-        context.save();
-        context.fillStyle = "green";
-        context.fillRect(this.x, this.y, this.width, this.height);
-        
-        context.restore();
+        context.drawImage(
+            this.image,
+            this.xi,
+            this.yi,
+            this.xf,
+            this.yf,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        );;
     }
 
 }
