@@ -4,6 +4,7 @@ import { Background } from "./background.js";
 import { Tile } from "./tile.js";
 import { Stairs } from "./stairs.js";
 import { Thorns } from "./thorns.js";
+import {Crown} from "./crown.js"
 
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
@@ -54,11 +55,15 @@ window.addEventListener("load", function () {
         new Thorns(1008+130, this.height - this.groundMargin + 448 + 37, 130, 25,513,630,65,10),
         new Thorns(2014+188, this.height - this.groundMargin + 198 + 310 - 20, 658, 25,1057,630,320,10),
       ];
+      this.crowns = [
+        new Crown(700, this.height - this.groundMargin - 50, 50, 50),
+        new Crown(1200, this.height - this.groundMargin - 50, 50, 50),
+      ];
       this.speedTile = 0;
       this.speedTileY = 0;
     }
 
-    update(deltaTime, context) {
+    update(deltaTime, context, timeStamp) {
       
       this.CameraX += this.speedTile;
       this.CameraY += this.speedTileY;
@@ -73,6 +78,9 @@ window.addEventListener("load", function () {
       this.stairs.forEach((s) => {
         s.update(this.speedTile, this.speedTileY);
       });
+      this.crowns.forEach((s) => {
+        s.update(this.speedTile, this.speedTileY, timeStamp);
+      });
       this.player.update(this.input.keys, deltaTime, context);
     }
 
@@ -86,6 +94,10 @@ window.addEventListener("load", function () {
       this.thorns.forEach((thorn) => {
         thorn.draw(context);
       });
+      this.crowns.forEach((s) => {
+        s.draw(context);
+      });
+      this.crowns = this.crowns.filter((crown) => !crown.marked);
       //this.background.draw(context);
       this.player.draw(context);
     }
@@ -100,7 +112,7 @@ window.addEventListener("load", function () {
     //console.log(deltaTime);
     lastTime = timeStamp;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    game.update(deltaTime, ctx);
+    game.update(deltaTime, ctx, timeStamp);
     game.draw(ctx);
     requestAnimationFrame(animate);
   }

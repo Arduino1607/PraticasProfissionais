@@ -62,7 +62,7 @@ export class Player {
     this.currentState.handleInput(input);
     console.log(this.CameraX);
     //this.game.speedTileY = 0;
-    //console.log(this.x);
+    console.log(this.x, this.y);
     if (this.isDeath == false) {
       this.x += this.speed;
       this.y += this.vy;
@@ -87,13 +87,13 @@ export class Player {
             s = true;
           }
         });
-        console.log("eai: ", s);
+        //console.log("eai: ", s);
         if (!s) {
           this.setState(5);
         }
       }
 
-      console.log(this.currentState.getState());
+      //console.log(this.currentState.getState());
 
       this.game.tiles.forEach((tile) => {
         if (
@@ -112,6 +112,36 @@ export class Player {
           this.x = tile.x + tile.width - 30;
       });
 
+      this.game.crowns.forEach((crowns) => {
+        if (
+          this.x + this.width > crowns.x + 30 &&
+          this.x + this.width < crowns.x + 40 &&
+          this.y + this.height >= crowns.y &&
+          this.y < crowns.y + crowns.height
+        ){
+          this.isDeath = true;
+          this.setState(7);
+        }
+        if (
+          this.x < crowns.x + crowns.width - 30 &&
+          this.x > crowns.x + crowns.width - 40 &&
+          this.y + this.height >= crowns.y &&
+          this.y < crowns.y + crowns.height
+        ){
+          this.isDeath = true;
+          this.setState(7);
+        }
+      });
+      this.game.crowns.forEach((tile) => {
+        if (
+          this.x + this.width > tile.x + 30 &&
+          this.x < tile.x + tile.width - 30 &&
+          this.y + this.height + this.vy >= tile.y &&
+          this.y + this.height + this.vy < tile.y + tile.height
+        ) {
+          tile.marked = true;
+        }
+      });
       //horizontal movement
       if (input.includes("ArrowRight")) this.speed = this.maxSpeed;
       else if (input.includes("ArrowLeft")) this.speed = -this.maxSpeed;

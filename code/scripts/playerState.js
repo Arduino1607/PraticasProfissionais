@@ -131,7 +131,7 @@ export class Deading extends State{
     }
     handleInput(input){
        if(input.includes('Enter')){
-        this.player.y = 0;
+        this.player.y = this.player.game.height - this.player.game.groundMargin;
         this.player.x = this.player.x - 120;
         this.player.isDeath = false;
         this.player.setState(states.FALLING, 1);
@@ -144,6 +144,10 @@ export class Deading extends State{
             tile.y += this.player.game.CameraY;
         });
         this.player.game.thorns.forEach((tile)=>{
+            tile.x += this.player.game.CameraX;
+            tile.y += this.player.game.CameraY;
+        });
+        this.player.game.crowns.forEach((tile)=>{
             tile.x += this.player.game.CameraX;
             tile.y += this.player.game.CameraY;
         });
