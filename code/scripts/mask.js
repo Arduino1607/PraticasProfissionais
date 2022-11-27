@@ -34,7 +34,7 @@ export class Mask {
     }
     console.log(this.shoots);
     this.shoots.forEach((s)=>{
-        s.update();
+        s.update(this.game.speedTileY);
     });
     //console.log(this.game);
     this.shoots.forEach((shoot)=>{

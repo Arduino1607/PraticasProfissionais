@@ -59,7 +59,9 @@ window.addEventListener("load", function () {
       this.crowns = [
         new Crown(700, this.height - this.groundMargin - 50, 50, 50),
         new Crown(1200, this.height - this.groundMargin - 50, 50, 50),
-        new Mask(1050, this.height - this.groundMargin + 350, 50, 50, this)
+        new Crown(642+1240, 348+340, 50, 50),
+        new Mask(1050, this.height - this.groundMargin + 350, 50, 50, this),
+        new Mask(937+1950, 190+340, 50, 50, this)
       ];
       
       this.speedTile = 0;

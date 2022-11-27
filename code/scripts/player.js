@@ -60,10 +60,11 @@ export class Player {
   }
 
   update(input, deltaTime, context) {
+    console.log(this.game.speedTileY)
     this.currentState.handleInput(input);
     console.log(this.CameraX);
     //this.game.speedTileY = 0;
-    console.log(this.x, this.y);
+    console.log(this.x, this.y, this.game.CameraX, this.game.CameraY);
     if (this.isDeath == false) {
       this.x += this.speed;
       this.y += this.vy;
@@ -218,14 +219,14 @@ export class Player {
     } else {
       this.frameTimer += deltaTime;
     }
+    this.shoots.forEach((shoot) => {
+      shoot.update(this.game.speedTileY);
+    });
   }
 
   draw(context) {
     var count = 0;
     //console.log(this.shoots)
-    this.shoots.forEach((shoot) => {
-      shoot.update();
-    });
     this.shoots.forEach((shoot) => {
       shoot.draw(context);
     });

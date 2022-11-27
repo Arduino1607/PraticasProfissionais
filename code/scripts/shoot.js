@@ -10,14 +10,15 @@ export class Shoot{
         this.marked = false;
         this.origin = origin;
         if(this.player.lastKey == "D")
-            this.speed = 20;
+            this.speed = 15;
         else
-            this.speed = -20;
+            this.speed = -15;
     }
 
-    update(){
+    update(speedy){
         
         this.x += this.speed;
+        this.y -= this.game.speedTileY;
         this.game.tiles.forEach(tile=>{
             if((this.x + this.width > tile.x && this.x + this.width < tile.x + 20) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height)){
                 this.marked = true;
