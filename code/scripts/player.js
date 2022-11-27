@@ -51,6 +51,7 @@ export class Player {
       new Deading(this),
       new Ball(this),
     ];
+    this.lastKey = "D";
     this.isDeath = false;
     this.currentState = this.states[5];
     this.currentState.enter();
@@ -112,6 +113,8 @@ export class Player {
           this.x = tile.x + tile.width - 30;
       });
 
+
+
       this.game.crowns.forEach((crowns) => {
         if (
           this.x + this.width > crowns.x + 30 &&
@@ -143,8 +146,13 @@ export class Player {
         }
       });
       //horizontal movement
-      if (input.includes("ArrowRight")) this.speed = this.maxSpeed;
-      else if (input.includes("ArrowLeft")) this.speed = -this.maxSpeed;
+      if (input.includes("ArrowRight")){
+        this.speed = this.maxSpeed;
+        this.lastKey = "D";
+      } else if (input.includes("ArrowLeft")){
+        this.speed = -this.maxSpeed;
+        this.lastKey = "E";
+      } 
       else this.speed = 0;
 
       //console.log(this.y)
@@ -199,7 +207,9 @@ export class Player {
           this.y + this.height / 2,
           35,
           12,
-          this
+          this.game,
+          this,
+          "player"
         );
         this.shoots.push(s);
         this.setState(5);
@@ -231,17 +241,43 @@ export class Player {
            posx = -1;
         context.scale(-1, 1);*/
     //context.fillRect(this.x , this.y, this.width , this.height);
+    context.save();
+    if(this.speed > 0){
+      context.scale( 1, 1);
+    }else if(this.speed > 0){
+      context.scale( -1, 1);
+    }else{
+      if(this.lastKey == "D")
+        context.scale( 1, 1);
+      else
+        context.scale( -1, 1);
+    }
+
+
+    let i = 0;
+    if(this.speed > 0){
+      i = this.x ;
+    }else if(this.speed < 0){ 
+      i =(this.x + this.width)*-1;
+    }else{
+      if(this.lastKey == "D")
+        i = this.x ;
+      else
+        i =(this.x + this.width)*-1;
+    }
+    
     context.drawImage(
       this.image,
       this.framex * 32,
       this.framey * 32 + 1,
       32,
       32,
-      this.x,
+      i,
       this.y,
       this.width,
       this.height
     );
+    context.restore();
   }
 
   onGround() {

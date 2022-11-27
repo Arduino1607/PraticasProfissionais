@@ -5,6 +5,7 @@ import { Tile } from "./tile.js";
 import { Stairs } from "./stairs.js";
 import { Thorns } from "./thorns.js";
 import {Crown} from "./crown.js"
+import {Mask} from "./mask.js"
 
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
@@ -58,7 +59,9 @@ window.addEventListener("load", function () {
       this.crowns = [
         new Crown(700, this.height - this.groundMargin - 50, 50, 50),
         new Crown(1200, this.height - this.groundMargin - 50, 50, 50),
+        new Mask(1050, this.height - this.groundMargin + 350, 50, 50, this)
       ];
+      
       this.speedTile = 0;
       this.speedTileY = 0;
     }
