@@ -48,9 +48,8 @@ export class Running extends State{
 
     }
     handleInput(input){
-        /*if(input.includes('ArrowDown')){
-            this.player.setState(states.SITTING);
-        } else*/ if(input.includes('ArrowUp')){
+        
+        if(input.includes('ArrowUp')){
             this.player.setState(states.JUMPING,1);
         } else if(input.includes('a')){
             this.player.setState(states.ATTACKING,1);
@@ -102,8 +101,6 @@ export class Falling extends State{
         }else if(input.includes('a')){
             this.player.setState(states.ATTACKING, 1);
         }
-        /*else if(input.includes('ArrowDown'))
-            this.player.setState(states.BALL)*/
     }
 }
 
@@ -154,6 +151,7 @@ export class Deading extends State{
         this.player.game.crowns.forEach((tile)=>{
             tile.x += this.player.game.CameraX;
             tile.y += this.player.game.CameraY;
+            tile.originY += this.player.game.CameraY;
         });
         this.player.game.CameraX = 0;
         this.player.x = this.player.game.beginX; 

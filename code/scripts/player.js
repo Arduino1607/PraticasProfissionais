@@ -109,7 +109,8 @@ export class Player {
           this.game.speedTile = this.maxSpeed;
         }
       }
-
+      console.log(this.x, this.game.CameraX);
+      
       //vertical movement
       let DistanceToGround = this.onGround();
       if (DistanceToGround == 0 && this.currentState.getState() != "CLIMBING") {
