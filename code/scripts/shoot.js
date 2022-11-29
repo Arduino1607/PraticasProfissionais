@@ -13,9 +13,17 @@ export class Shoot{
             this.speed = 15;
         else
             this.speed = -15;
+
+        this.image = document.getElementById("fireball");
+        this.framex = 0;
+        this.framey = 0;
+        this.maxFrame = 2;
+        this.fps = 5;
+        this.frameInterval = 1000 / this.fps;
+        this.frameTimer = 0;
     }
 
-    update(speedy){
+    update(speedy, deltaTime){
         
         this.x += this.speed;
         this.y -= this.game.speedTileY;
@@ -41,10 +49,35 @@ export class Shoot{
             this.marked = true;
             console.log("oi oi ")
         }*/
+        this.animation(deltaTime);
+    }
+
+    animation(deltaTime){
+        if (this.frameTimer > this.frameInterval) {
+          this.frameTimer = 0;
+          if (this.framex < this.maxFrame - 1){
+           this.framex++;
+          }else{
+            this.framex = 0;
+          } 
+        } else {
+          this.frameTimer += deltaTime;
+        }
     }
 
     draw(context){
-        context.fillRect(this.x, this.y, this.width, this.height);
+        //context.fillRect(this.x, this.y, this.width, this.height);
+        context.drawImage(
+            this.image,
+            this.framex * 8,
+            this.framey * 8 + 1,
+            8,
+            8,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+          );
     }
 
 }

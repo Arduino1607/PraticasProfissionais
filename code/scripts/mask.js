@@ -19,23 +19,38 @@ export class Mask {
     this.lastKey = "E";
     this.shoots = [];
 
+    this.maxFrame = 2;
+    this.fps = 5;
+    this.frameInterval = 1000 / this.fps;
+    this.frameTimer = 0;
+
+    this.framex = 0;
+    this.framey = 0;
+
     this.origin = y;
+
+    this.image = document.getElementById("mask");
 
   }
 
-  update(speed, speedy, time) {
+  update(speed, speedy, time, deltaTime) {
     this.x -= speed ;
     this.y -= speedy + this.speed;
     this.origin -= speedy;
 
     if(this.origin - this.y > 200){
       this.speed = -5;
+      (this.game.player.x + this.game.CameraX > this.x + this.game.CameraX - 400)?this.framey = 0 : this.framey = 3;
     }else if(this.origin - this.y < 1){
       this.speed = 5;
+      (this.game.player.x + this.game.CameraX > this.x + this.game.CameraX - 400)?this.framey = 1 : this.framey = 4;
     }
+    this.maxFrame = 3;
+    this.framex = 0;
     console.log(this.origin - this.y, this.speed)
     this.colision();
-    this.attack(time);
+    this.animation(deltaTime);
+    this.attack(time, deltaTime);
   }
 
   colision() {
@@ -73,7 +88,20 @@ export class Mask {
     
   }
 
-  attack(time){
+  animation(deltaTime){
+    if (this.frameTimer > this.frameInterval) {
+      this.frameTimer = 0;
+      if (this.framex < this.maxFrame - 1){
+       this.framex++;
+      }else{
+        this.framex = 0;
+      } 
+    } else {
+      this.frameTimer += deltaTime;
+    }
+  }
+
+  attack(time, deltaTime){
     if (
       time / 1000 - this.lastShoot > 0.8 &&
       this.game.player.x + this.game.CameraX > this.x + this.game.CameraX - 400
@@ -81,17 +109,20 @@ export class Mask {
       var s = new Shoot(
         this.x + this.width / 2,
         this.y + this.height / 2,
-        35,
-        12,
+        16,
+        16,
         this.game,
         this,
         "mask");
         this.lastShoot = time/1000;
         this.shoots.push(s);
+        this.framey = 2;
+        this.framex = 0;
+        this.maxFrame = 1;
     }
 
     this.shoots.forEach((s) => {
-      s.update(this.game.speedTileY);
+      s.update(this.game.speedTileY, deltaTime);
     });
 
     this.shoots.forEach((shoot) => {
@@ -114,6 +145,15 @@ export class Mask {
     this.shoots.forEach((s) => {
       s.draw(context);
     });
-    context.fillRect(this.x, this.y, this.width, this.height);
-  }
+    context.drawImage(
+      this.image,
+      this.framex * 32,
+      this.framey * 32 + 1,
+      32,
+      32,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );  }
 }

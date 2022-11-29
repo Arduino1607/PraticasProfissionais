@@ -120,8 +120,8 @@ export class Crown {
     }
   }
   draw(context) {
-    context.fillStyle = "black";
-    context.fillRect(this.x, this.y, this.width, this.height);
+    //context.fillStyle = "black";
+    //context.fillRect(this.x, this.y, this.width, this.height);
     context.drawImage(
       this.image,
       this.framex * 32,
