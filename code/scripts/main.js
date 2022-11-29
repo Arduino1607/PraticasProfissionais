@@ -253,7 +253,7 @@ window.addEventListener("load", function () {
         new Crown(700, this.height - this.groundMargin - 96, 96, 96, 1, this, 0.5),
         new Crown(800, this.height - this.groundMargin - 96, 96, 96, -1,this, 0.5),
         new Crown(617+1280, 348 + 360 - 64, 96, 96, 1, this, 0.4),
-        new Mask(1050, this.height - this.groundMargin + 350, 64, 64, this),
+        new Mask(1050, this.height - this.groundMargin  + 390, 64, 64, this),
         new Mask(937 + 1950, 190 + 340, 64, 64, this),
       ];
     }

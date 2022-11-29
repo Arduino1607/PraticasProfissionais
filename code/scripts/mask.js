@@ -10,7 +10,7 @@ export class Mask {
     this.width = width;
     this.height = height;
     this.game = game;
-    this.speed = 0;
+    this.speed = -5;
     this.marked = false;
     this.lastAttack = 0;
   
@@ -19,11 +19,21 @@ export class Mask {
     this.lastKey = "E";
     this.shoots = [];
 
+    this.origin = y;
+
   }
 
   update(speed, speedy, time) {
-    this.x -= speed;
-    this.y += 5 * Math.cos(1 * Math.PI * (time / 1000)) - speedy;    
+    this.x -= speed ;
+    this.y -= speedy + this.speed;
+    this.origin -= speedy;
+
+    if(this.origin - this.y > 200){
+      this.speed = -5;
+    }else if(this.origin - this.y < 1){
+      this.speed = 5;
+    }
+    console.log(this.origin - this.y, this.speed)
     this.colision();
     this.attack(time);
   }
