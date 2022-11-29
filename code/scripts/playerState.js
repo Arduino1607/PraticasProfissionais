@@ -131,6 +131,7 @@ export class Deading extends State{
         this.player.framex = 0;
         this.player.framey = 4;
         this.player.maxFrame = 2;
+
     }
     handleInput(input){
        if(input.includes('Enter')){

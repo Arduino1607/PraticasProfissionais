@@ -1,5 +1,3 @@
-//TODO corrigir a resolução do personagem
-//TODO Transferir o controle de estado para os tiles
 import {
   Sitting,
   Running,
@@ -51,33 +49,33 @@ export class Player {
       new Deading(this),
       new Ball(this),
     ];
+    this.currentState = this.states[5];
     this.lastKey = "D";
     this.isDeath = false;
-    this.currentState = this.states[5];
     this.currentState.enter();
 
+    //shoots
     this.shoots = [];
   }
 
   update(input, deltaTime, context) {
-    console.log(this.game.speedTileY)
+    
     this.currentState.handleInput(input);
-    console.log(this.CameraX);
-    //this.game.speedTileY = 0;
-    console.log(this.x, this.y, this.game.CameraX, this.game.CameraY);
+
     if (this.isDeath == false) {
+
       this.x += this.speed;
       this.y += this.vy;
       this.game.speedTile = 0;
       var s = false;
       if (this.currentState.getState() == "CLIMBING") {
-        if(this.y + this.height >= this.game.height - this.game.groundMargin){
-            this.y = this.game.height - this.game.groundMargin - this.height;
-            this.game.speedTileY = 1;
+        if (this.y + this.height >= this.game.height - this.game.groundMargin) {
+          this.y = this.game.height - this.game.groundMargin - this.height;
+          this.game.speedTileY = 1;
         }
-        if(this.y <= this.game.height/2 + (this.height-this.game.groundMargin) + 40){
-            this.y = this.game.height/2 + (this.height - this.game.groundMargin) + 40;
-            this.game.speedTileY = -1;
+        if (this.y <= this.game.height / 2 + (this.height - this.game.groundMargin) + 40) {
+          this.y = this.game.height / 2 + (this.height - this.game.groundMargin) + 40;
+          this.game.speedTileY = -1;
         }
         this.game.stairs.forEach((stair) => {
           if (
@@ -89,13 +87,11 @@ export class Player {
             s = true;
           }
         });
-        //console.log("eai: ", s);
         if (!s) {
           this.setState(5);
         }
       }
 
-      //console.log(this.currentState.getState());
 
       this.game.tiles.forEach((tile) => {
         if (
@@ -114,63 +110,31 @@ export class Player {
           this.x = tile.x + tile.width - 30;
       });
 
-
-
-      this.game.crowns.forEach((crowns) => {
-        if (
-          this.x + this.width > crowns.x + 30 &&
-          this.x + this.width < crowns.x + 40 &&
-          this.y + this.height >= crowns.y &&
-          this.y < crowns.y + crowns.height
-        ){
-          this.isDeath = true;
-          this.setState(7);
-        }
-        if (
-          this.x < crowns.x + crowns.width - 30 &&
-          this.x > crowns.x + crowns.width - 40 &&
-          this.y + this.height >= crowns.y &&
-          this.y < crowns.y + crowns.height
-        ){
-          this.isDeath = true;
-          this.setState(7);
-        }
-      });
-      this.game.crowns.forEach((tile) => {
-        if (
-          this.x + this.width > tile.x + 30 &&
-          this.x < tile.x + tile.width - 30 &&
-          this.y + this.height + this.vy >= tile.y &&
-          this.y + this.height + this.vy < tile.y + tile.height
-        ) {
-          tile.marked = true;
-        }
-      });
       //horizontal movement
-      if (input.includes("ArrowRight")){
+      if (input.includes("ArrowRight")) {
         this.speed = this.maxSpeed;
         this.lastKey = "D";
-      } else if (input.includes("ArrowLeft")){
+      } else if (input.includes("ArrowLeft")) {
         this.speed = -this.maxSpeed;
         this.lastKey = "E";
-      } 
+      }
       else this.speed = 0;
 
-      //console.log(this.y)
       if (this.x + 30 < 0) this.x = -30;
-      if(this.game.CameraX < this.game.end){
+      if (this.game.CameraX < this.game.end) {
         if (this.x > (this.game.width - this.width + 30) / 2) {
           this.x = (this.game.width - this.width + 30) / 2;
           this.game.speedTile = this.maxSpeed;
         }
       }
+
       //vertical movement
       let og = this.onGround();
       if (og == 0 && this.currentState.getState() != "CLIMBING") {
-        if(this.y + this.height >= this.game.height - this.game.groundMargin){
+        if (this.y + this.height >= this.game.height - this.game.groundMargin) {
           this.y = this.game.height - this.game.groundMargin - this.height;
           this.game.speedTileY += this.weight;
-        }else {
+        } else {
           this.vy += this.weight;
         }
         this.game.thorns.forEach((thorn) => {
@@ -189,14 +153,13 @@ export class Player {
             this.setState(7);
           }
         });
-        
+
       } else if (this.currentState.getState() != "CLIMBING") {
         this.vy = 0;
         this.y = og - this.height;
         this.game.speedTileY = 0;
       }
 
-      //console.log(this.onGround());
       //sprite animation
     }
     if (this.frameTimer > this.frameInterval) {
@@ -243,30 +206,30 @@ export class Player {
         context.scale(-1, 1);*/
     //context.fillRect(this.x , this.y, this.width , this.height);
     context.save();
-    if(this.speed > 0){
-      context.scale( 1, 1);
-    }else if(this.speed > 0){
-      context.scale( -1, 1);
-    }else{
-      if(this.lastKey == "D")
-        context.scale( 1, 1);
+    if (this.speed > 0) {
+      context.scale(1, 1);
+    } else if (this.speed > 0) {
+      context.scale(-1, 1);
+    } else {
+      if (this.lastKey == "D")
+        context.scale(1, 1);
       else
-        context.scale( -1, 1);
+        context.scale(-1, 1);
     }
 
 
     let i = 0;
-    if(this.speed > 0){
-      i = this.x ;
-    }else if(this.speed < 0){ 
-      i =(this.x + this.width)*-1;
-    }else{
-      if(this.lastKey == "D")
-        i = this.x ;
+    if (this.speed > 0) {
+      i = this.x;
+    } else if (this.speed < 0) {
+      i = (this.x + this.width) * -1;
+    } else {
+      if (this.lastKey == "D")
+        i = this.x;
       else
-        i =(this.x + this.width)*-1;
+        i = (this.x + this.width) * -1;
     }
-    
+
     context.drawImage(
       this.image,
       this.framex * 32,
