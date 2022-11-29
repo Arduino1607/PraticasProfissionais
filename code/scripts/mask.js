@@ -1,3 +1,5 @@
+//TODO Criar uma classe mãe Inimigo e criar os inimigos como extensões dela
+
 import { Shoot } from "./shoot.js";
 
 export class Mask {

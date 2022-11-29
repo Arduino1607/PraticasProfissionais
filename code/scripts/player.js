@@ -67,31 +67,8 @@ export class Player {
       this.x += this.speed;
       this.y += this.vy;
       this.game.speedTile = 0;
-      var s = false;
-      if (this.currentState.getState() == "CLIMBING") {
-        if (this.y + this.height >= this.game.height - this.game.groundMargin) {
-          this.y = this.game.height - this.game.groundMargin - this.height;
-          this.game.speedTileY = 1;
-        }
-        if (this.y <= this.game.height / 2 + (this.height - this.game.groundMargin) + 40) {
-          this.y = this.game.height / 2 + (this.height - this.game.groundMargin) + 40;
-          this.game.speedTileY = -1;
-        }
-        this.game.stairs.forEach((stair) => {
-          if (
-            this.x + this.width / 2 - 10 > stair.x &&
-            this.x + this.width / 2 + 10 < stair.x + stair.width &&
-            this.y + this.height >= stair.y &&
-            this.y + this.height < stair.y + stair.height
-          ) {
-            s = true;
-          }
-        });
-        if (!s) {
-          this.setState(5);
-        }
-      }
-
+      
+      this.climbing();
 
       this.game.tiles.forEach((tile) => {
         if (
@@ -109,7 +86,7 @@ export class Player {
         )
           this.x = tile.x + tile.width - 30;
       });
-
+      
       //horizontal movement
       if (input.includes("ArrowRight")) {
         this.speed = this.maxSpeed;
@@ -118,9 +95,14 @@ export class Player {
         this.speed = -this.maxSpeed;
         this.lastKey = "E";
       }
-      else this.speed = 0;
+      else {
+        this.speed = 0;
+      }
 
-      if (this.x + 30 < 0) this.x = -30;
+      //borders
+      if (this.x + 30 < 0){
+         this.x = -30;
+      }
       if (this.game.CameraX < this.game.end) {
         if (this.x > (this.game.width - this.width + 30) / 2) {
           this.x = (this.game.width - this.width + 30) / 2;
@@ -129,8 +111,8 @@ export class Player {
       }
 
       //vertical movement
-      let og = this.onGround();
-      if (og == 0 && this.currentState.getState() != "CLIMBING") {
+      let DistanceToGround = this.onGround();
+      if (DistanceToGround == 0 && this.currentState.getState() != "CLIMBING") {
         if (this.y + this.height >= this.game.height - this.game.groundMargin) {
           this.y = this.game.height - this.game.groundMargin - this.height;
           this.game.speedTileY += this.weight;
@@ -148,24 +130,56 @@ export class Player {
             this.game.speedTileY = 0;
             this.setState(7);
           }
-          if (this.y > 1500) {
-            this.isDeath = true;
-            this.setState(7);
-          }
         });
-
+        if (this.y > 1500) {
+          this.isDeath = true;
+          this.setState(7);
+        }
       } else if (this.currentState.getState() != "CLIMBING") {
         this.vy = 0;
-        this.y = og - this.height;
+        this.y = DistanceToGround - this.height;
         this.game.speedTileY = 0;
       }
-
-      //sprite animation
     }
+    this.animation(deltaTime);
+    this.shoots.forEach((shoot) => {
+      shoot.update(this.game.speedTileY);
+    });
+  }
+
+  climbing(){
+    var onStair = false;
+    if (this.currentState.getState() == "CLIMBING") {
+      if (this.y + this.height >= this.game.height - this.game.groundMargin) {
+        this.y = this.game.height - this.game.groundMargin - this.height;
+        this.game.speedTileY = 1;
+      }
+      if (this.y <= this.game.height / 2 + (this.height - this.game.groundMargin) + 40) {
+        this.y = this.game.height / 2 + (this.height - this.game.groundMargin) + 40;
+        this.game.speedTileY = -1;
+      }
+      this.game.stairs.forEach((stair) => {
+        if (
+          this.x + this.width / 2 - 10 > stair.x &&
+          this.x + this.width / 2 + 10 < stair.x + stair.width &&
+          this.y + this.height >= stair.y &&
+          this.y + this.height < stair.y + stair.height
+        ) {
+          onStair = true;
+        }
+      });
+      if (!onStair) { 
+        this.setState(5);
+      }
+    }
+  }
+
+  animation(deltaTime){
     if (this.frameTimer > this.frameInterval) {
       this.frameTimer = 0;
-      if (this.framex < this.maxFrame - 1) this.framex++;
-      else if (this.currentState.getState() == "ATTACKING") {
+      if (this.framex < this.maxFrame - 1){
+       this.framex++;
+      }else if (this.currentState.getState() == "ATTACKING") {
         var s = new Shoot(
           this.x + this.width / 2,
           this.y + this.height / 2,
@@ -177,57 +191,52 @@ export class Player {
         );
         this.shoots.push(s);
         this.setState(5);
-      } else if (this.currentState.getState() == "DEADING") this.isDeath = true;
-      else this.framex = 0;
+      } else if (this.currentState.getState() == "DEADING"){
+        this.isDeath = true;
+      } 
+      else{
+        this.framex = 0;
+      } 
     } else {
       this.frameTimer += deltaTime;
     }
-    this.shoots.forEach((shoot) => {
-      shoot.update(this.game.speedTileY);
-    });
   }
 
   draw(context) {
-    var count = 0;
-    //console.log(this.shoots)
+    
     this.shoots.forEach((shoot) => {
       shoot.draw(context);
     });
     this.shoots = this.shoots.filter((shoot) => !shoot.marked);
+
     context.fillRect(
       0,
       this.game.height - this.game.groundMargin,
       this.game.width,
       1
     );
-    let posx = 1;
-    /*if(this.speed < 0)
-           posx = -1;
-        context.scale(-1, 1);*/
-    //context.fillRect(this.x , this.y, this.width , this.height);
+
     context.save();
-    if (this.speed > 0) {
+
+    if (this.speed > 0) 
       context.scale(1, 1);
-    } else if (this.speed > 0) {
+    else if (this.speed > 0)
       context.scale(-1, 1);
-    } else {
-      if (this.lastKey == "D")
-        context.scale(1, 1);
-      else
-        context.scale(-1, 1);
-    }
+    else 
+      (this.lastKey == "D") ? context.scale(1, 1) : context.scale(-1, 1);      
+      
 
 
-    let i = 0;
+    let x = 0;
     if (this.speed > 0) {
-      i = this.x;
+      x = this.x;
     } else if (this.speed < 0) {
-      i = (this.x + this.width) * -1;
+      x = (this.x + this.width) * -1;
     } else {
       if (this.lastKey == "D")
-        i = this.x;
+        x = this.x;
       else
-        i = (this.x + this.width) * -1;
+        x = (this.x + this.width) * -1;
     }
 
     context.drawImage(
@@ -236,16 +245,18 @@ export class Player {
       this.framey * 32 + 1,
       32,
       32,
-      i,
+      x,
       this.y,
       this.width,
       this.height
     );
+    
+
     context.restore();
   }
 
   onGround() {
-    let g = 0;
+    let DistanceToGround = 0;
     this.game.tiles.forEach((tile) => {
       if (
         this.x + this.width > tile.x + 30 &&
@@ -253,7 +264,7 @@ export class Player {
         this.y + this.height + this.vy >= tile.y &&
         this.y + this.height + this.vy < tile.y + tile.height
       ) {
-        g = tile.y;
+        DistanceToGround = tile.y;
       }
     });
     this.game.stairs.forEach((stair) => {
@@ -263,10 +274,10 @@ export class Player {
         this.y + this.height >= stair.y &&
         this.y + this.height < stair.y + 20
       ) {
-        g = stair.y;
+        DistanceToGround = stair.y;
       }
     });
-    return /*this.y + this.speed/2 >= this.game.height - this.height - this.game.groundMargin ||*/ g;
+    return DistanceToGround;
   }
 
   setState(state, speed) {

@@ -1,4 +1,5 @@
 //TODO salvar estado inicial para retornar a ele quando o jogo for reiniciado 
+//TODO corrigir erros nas cameras
 import { Background } from "./background.js";
 import { Crown } from "./crown.js";
 import { InputHandler } from "./input.js";

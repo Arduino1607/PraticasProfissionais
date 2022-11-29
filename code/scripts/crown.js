@@ -1,3 +1,4 @@
+//TODO Criar uma classe mãe Inimigo e criar os inimigos como extensões dela
 export class Crown {
   constructor(x, y, width, height, amplitude, game) {
     //generic variables
