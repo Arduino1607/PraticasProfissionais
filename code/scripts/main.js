@@ -250,11 +250,11 @@ window.addEventListener("load", function () {
         ),
       ];
       this.crowns = [
-        new Crown(700, this.height - this.groundMargin - 50, 50, 50, 1, this, 0.5),
-        new Crown(800, this.height - this.groundMargin - 50, 50, 50, -1,this, 0.5),
-        new Crown(617+1280, 348 + 340, 50, 50, 1, this, 0.4),
-        new Mask(1050, this.height - this.groundMargin + 350, 50, 50, this),
-        new Mask(937 + 1950, 190 + 340, 50, 50, this),
+        new Crown(700, this.height - this.groundMargin - 96, 96, 96, 1, this, 0.5),
+        new Crown(800, this.height - this.groundMargin - 96, 96, 96, -1,this, 0.5),
+        new Crown(617+1280, 348 + 360 - 64, 96, 96, 1, this, 0.4),
+        new Mask(1050, this.height - this.groundMargin + 350, 64, 64, this),
+        new Mask(937 + 1950, 190 + 340, 64, 64, this),
       ];
     }
 
@@ -274,12 +274,14 @@ window.addEventListener("load", function () {
         s.update(this.speedTile, this.speedTileY);
       });
       this.crowns.forEach((s) => {
-        s.update(this.speedTile, this.speedTileY, timeStamp);
+        s.update(this.speedTile, this.speedTileY, timeStamp,deltaTime);
       });
       this.player.update(this.input.keys, deltaTime, context);
     }
 
     draw(context) {
+      ctx.fillStyle = "gray";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       this.tiles.forEach((tile) => {
         tile.draw(context);
       });

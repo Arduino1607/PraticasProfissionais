@@ -21,9 +21,17 @@ export class Crown {
     this.originX = x;
     this.direction = direction;
     this.range = range;
+    this.framex = 0;
+    this.framey = 0;
+    this.image = document.getElementById("crown");
+    this.maxFrame = 2;
+    this.fps = 5;
+    this.frameInterval = 1000 / this.fps;
+    this.frameTimer = 0;
+
   }
 
-  update(speed, speedy, time) {
+  update(speed, speedy, time, deltaTime) {
     this.x -= speed + this.speed;
     this.y -= speedy - this.vy;
     this.originY -= speedy;
@@ -31,6 +39,7 @@ export class Crown {
     
       if (this.previousState == 0) {
         if ((time / 1000) - this.lastAttack >= this.range) {
+          this.framey = 0;
         this.speed = 0;
         this.previousState = this.followingState;
         this.followingState = 0;
@@ -38,6 +47,7 @@ export class Crown {
         }
       } else {
         if ((time / 1000) - this.lastAttack >= 1) {
+          this.framey = 1;
         if (this.previousState == -1) {
           this.speed = -10*this.direction;
           this.followingState = 1;
@@ -56,21 +66,18 @@ export class Crown {
         this.y = this.originY;
       }
     }
-    /*} else if (this.y >= this.originY) {
-      this.vy = 0;
-      this.y = this.originY;
-    }*/
     
     if (this.y < this.originY)
       this.vy += this.weight;
 
+    this.animation(deltaTime);
     this.colision();
   }
 
   colision() {
     if (
-      this.game.player.x + this.game.player.width > this.x + 30 &&
-      this.game.player.x + this.game.player.width < this.x + 40 &&
+      this.game.player.x + this.game.player.width > this.x + 60 &&
+      this.game.player.x + this.game.player.width < this.x + 80 &&
       this.game.player.y + this.game.player.height >= this.y &&
       this.game.player.y < this.y + this.height &&
       this.game.player.currentState.getState() != "DEADING"
@@ -79,8 +86,8 @@ export class Crown {
       this.game.player.setState(7);
     }
     if (
-      this.game.player.x < this.x + this.width - 30 &&
-      this.game.player.x > this.x + this.width - 40 &&
+      this.game.player.x < this.x + this.width - 60 &&
+      this.game.player.x > this.x + this.width - 80 &&
       this.game.player.y + this.game.player.height >= this.y &&
       this.game.player.y < this.y + this.height &&
       this.game.player.currentState.getState() != "DEADING"
@@ -90,8 +97,8 @@ export class Crown {
     }
 
     if (
-      this.game.player.x + this.game.player.width > this.x + 30 &&
-      this.game.player.x < this.x + this.width - 30 &&
+      this.game.player.x + this.game.player.width > this.x + 60 &&
+      this.game.player.x < this.x + this.width - 60 &&
       this.game.player.y + this.game.player.height + this.game.player.vy >=
       this.y &&
       this.game.player.y + this.game.player.height + this.game.player.vy <
@@ -100,8 +107,32 @@ export class Crown {
       this.marked = true;
     }
   }
-
+  animation(deltaTime){
+    if (this.frameTimer > this.frameInterval) {
+      this.frameTimer = 0;
+      if (this.framex < this.maxFrame - 1){
+       this.framex++;
+      }else{
+        this.framex = 0;
+      } 
+    } else {
+      this.frameTimer += deltaTime;
+    }
+  }
   draw(context) {
+    context.fillStyle = "black";
     context.fillRect(this.x, this.y, this.width, this.height);
+    context.drawImage(
+      this.image,
+      this.framex * 32,
+      this.framey * 32 + 1,
+      32,
+      32,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
+    
   }
 }
