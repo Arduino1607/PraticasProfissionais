@@ -78,32 +78,32 @@ export class Crown {
 
   colision() {
     if (
-      this.game.level.player.x + this.game.level.player.width > this.x + 60 &&
-      this.game.level.player.x + this.game.level.player.width < this.x + 80 &&
-      this.game.level.player.y + this.game.level.player.height >= this.y &&
-      this.game.level.player.y < this.y + this.height &&
-      this.game.level.player.currentState.getState() != "DEADING"
+      this.game.player.x + this.game.player.width > this.x + 60 &&
+      this.game.player.x + this.game.player.width < this.x + 80 &&
+      this.game.player.y + this.game.player.height >= this.y &&
+      this.game.player.y < this.y + this.height &&
+      this.game.player.currentState.getState() != "DEADING"
     ) {
-      this.game.level.player.isDeath = true;
-      this.game.level.player.setState(7);
+      this.game.player.isDeath = true;
+      this.game.player.setState(7);
     }
     if (
-      this.game.level.player.x < this.x + this.width - 60 &&
-      this.game.level.player.x > this.x + this.width - 80 &&
-      this.game.level.player.y + this.game.level.player.height >= this.y &&
-      this.game.level.player.y < this.y + this.height &&
-      this.game.level.player.currentState.getState() != "DEADING"
+      this.game.player.x < this.x + this.width - 60 &&
+      this.game.player.x > this.x + this.width - 80 &&
+      this.game.player.y + this.game.player.height >= this.y &&
+      this.game.player.y < this.y + this.height &&
+      this.game.player.currentState.getState() != "DEADING"
     ) {
-      this.game.level.player.isDeath = true;
-      this.game.level.player.setState(7);
+      this.game.player.isDeath = true;
+      this.game.player.setState(7);
     }
 
     if (
-      this.game.level.player.x + this.game.level.player.width > this.x + 60 &&
-      this.game.level.player.x < this.x + this.width - 60 &&
-      this.game.level.player.y + this.game.level.player.height + this.game.level.player.vy >=
+      this.game.player.x + this.game.player.width > this.x + 60 &&
+      this.game.player.x < this.x + this.width - 60 &&
+      this.game.player.y + this.game.player.height + this.game.player.vy >=
       this.y &&
-      this.game.level.player.y + this.game.level.player.height + this.game.level.player.vy <
+      this.game.player.y + this.game.player.height + this.game.player.vy <
       this.y + this.height
     ) {
       this.marked = true;

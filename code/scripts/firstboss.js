@@ -1,6 +1,10 @@
-import { Player } from "./player.js";
+import { Player } from "./playerBoss.js";
 import { InputHandler } from "./input.js";
-export class Level {
+import { Background } from "./background.js";
+import { Crown } from "./crown.js";
+import { Mask } from "./mask.js";
+import { Tile } from "./tile.js";
+export class firstBoss {
   constructor(width, height, image, end, tiles, stairs, thorns, enemys) {
     this.width = width;
     this.height = height;
@@ -21,10 +25,42 @@ export class Level {
     this.player = new Player(this);
     this.input = new InputHandler();
 
-    this.tiles = tiles;
-    this.stairs = stairs;
-    this.thorns = thorns;
-    this.enemys = enemys;
+    this.tiles = [
+      new Tile(
+        0,
+        this.height - this.groundMargin,
+        this.width+400,
+        266,
+        106,
+        64,
+        1600,
+        135,
+        "Mapa"
+      ),
+    ];
+    this.stairs = [
+    ];
+    this.thorns = [
+    ];
+    this.enemys = [
+    ];
+    this.arrows = [
+    ];
+    for(let i = 0; i < 16; i++){
+
+        let a = new Tile(
+            400 + 64*(i%4),
+            this.height - this.groundMargin - (100 * i),
+            64,
+            64,
+            16*(i%4),
+            0,
+            16,
+            16,
+            "arrows"
+        );
+        this.arrows.push(a);
+    }
   }
 
   update(deltaTime, context, timeStamp) {
@@ -35,30 +71,17 @@ export class Level {
     this.tiles.forEach((tile) => {
       tile.update(this.speedTile, this.speedTileY);
     });
-    this.thorns.forEach((thorn) => {
-      thorn.update(this.speedTile, this.speedTileY);
-    });
-    this.stairs.forEach((s) => {
-      s.update(this.speedTile, this.speedTileY);
-    });
-    this.enemys.forEach((s) => {
-      s.update(this.speedTile, this.speedTileY, timeStamp, deltaTime);
+    this.arrows.forEach((arrows) => {
+        arrows.update(this.speedTile, -1);
     });
     this.player.update(this.input.keys, deltaTime, context);
   }
 
   draw(context) {
-    context.drawImage(fundo, 0, 0, this.width, this.height);
     this.tiles.forEach((tile) => {
       tile.draw(context);
     });
-    this.stairs.forEach((s) => {
-      s.draw(context);
-    });
-    this.thorns.forEach((thorn) => {
-      thorn.draw(context);
-    });
-    this.enemys.forEach((s) => {
+    this.arrows.forEach((s) => {
       s.draw(context);
     });
     this.enemys = this.enemys.filter((enemy) => !enemy.marked);

@@ -1,5 +1,5 @@
 export class Tile{
-    constructor(x, y, width, height, xi, yi, xf, yf){
+    constructor(x, y, width, height, xi, yi, xf, yf, image){
         this.x = x; 
         this.y = y;
         this.xi = xi;
@@ -8,7 +8,7 @@ export class Tile{
         this.yf = yf;
         this.width = width;
         this.height = height;
-        this.image = document.getElementById("Mapa");
+        this.image = document.getElementById(image);
 
     }
 
