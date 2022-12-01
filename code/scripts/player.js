@@ -61,11 +61,10 @@ export class Player {
   update(input, deltaTime, context) {
     
     this.currentState.handleInput(input);
-
+    this.x += this.speed;
+    this.y += this.vy;
     if (this.isDeath == false) {
-
-      this.x += this.speed;
-      this.y += this.vy;
+      
       this.game.speedTile = 0;
       
       this.climbing();
@@ -109,10 +108,11 @@ export class Player {
           this.game.speedTile = this.maxSpeed;
         }
       }
-      console.log(this.x, this.game.CameraX);
+      //console.log(this.x, this.game.CameraX);
       
       //vertical movement
       let DistanceToGround = this.onGround();
+      //console.log(this.onGround());
       if (DistanceToGround == 0 && this.currentState.getState() != "CLIMBING") {
         if (this.y + this.height >= this.game.height - this.game.groundMargin) {
           this.y = this.game.height - this.game.groundMargin - this.height;
@@ -140,6 +140,34 @@ export class Player {
         this.vy = 0;
         this.y = DistanceToGround - this.height;
         this.game.speedTileY = 0;
+      }
+    }else{
+      this.game.speedTile = 0;
+      this.game.speedTileY = 0;
+      this.speed = 0;
+      let DistanceToGround = this.onGround();
+      //console.log(this.onGround(), this.isDeath);
+      if (DistanceToGround == 0){
+        if (this.y + this.height >= this.game.height - this.game.groundMargin) {
+          this.y = this.game.height - this.game.groundMargin - this.height;
+          this.game.speedTileY += this.weight;
+        } else {
+          this.vy += this.weight;
+        }
+        this.game.thorns.forEach((thorn) => {
+          if (
+            this.x + this.width > thorn.x + 30 &&
+            this.x < thorn.x + thorn.width - 30 &&
+            this.y + this.height + this.vy >= thorn.y &&
+            this.y + this.height + this.vy < thorn.y + thorn.height
+          ) {
+            this.game.speedTileY = 0;
+
+          }
+        });
+        //this.vy += this.weight;
+      }else{
+        this.vy = 0;
       }
     }
     this.animation(deltaTime);
@@ -210,12 +238,12 @@ export class Player {
     });
     this.shoots = this.shoots.filter((shoot) => !shoot.marked);
 
-    context.fillRect(
+    //context.fillRect(
       0,
       this.game.height - this.game.groundMargin,
       this.game.width,
       1
-    );
+    //);
 
     context.save();
 

@@ -77,7 +77,7 @@ export class Jumping extends State{
         }
         this.player.game.tiles.forEach(tile=>{
             if((this.player.x + this.player.width > tile.x + 30 && this.player.x < tile.x + tile.width - 30) && (this.player.y + 10  < tile.y + tile.height && this.player.y + this.player.height >= tile.y - 10)){
-                console.log("True")
+                //console.log("True")
                 this.player.vy = this.player.weight;
                 this.player.setState(states.FALLING);           
             }
@@ -154,6 +154,7 @@ export class Deading extends State{
             tile.originY += this.player.game.CameraY;
         });
         this.player.game.CameraX = 0;
+        this.player.game.CameraY = 0;
         this.player.x = this.player.game.beginX; 
        }
     }
@@ -191,7 +192,7 @@ export class Climbing extends State{
                 t = true;
             }
         });
-        console.log(t);
+        //console.log(t);
         if(t == false){
             this.player.vy = -1;
          }else{

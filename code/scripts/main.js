@@ -37,23 +37,23 @@ window.addEventListener("load", function () {
       this.input = new InputHandler();
       this.tiles = [
         new Tile(
-          66,
+          62,
           this.height - this.groundMargin - 560,
           3200,
-          270,
+          266,
           106,
-          66,
+          64,
           1600,
           135
         ),
         new Tile(
-          0,
+          -4,
           this.height - this.groundMargin - 560,
           66,
           560,
           0,
           66,
-          32,
+          30,
           280
         ),
         new Tile(
@@ -62,7 +62,7 @@ window.addEventListener("load", function () {
           580,
           510,
           0,
-          384,
+          385,
           290,
           255
         ),
@@ -72,7 +72,7 @@ window.addEventListener("load", function () {
           792,
           192,
           320,
-          383,
+          385,
           353,
           127
         ),
@@ -113,7 +113,7 @@ window.addEventListener("load", function () {
           513,
           704,
           385,
-          64,
+          63,
           255
         ),
         new Tile(
@@ -263,7 +263,7 @@ window.addEventListener("load", function () {
     update(deltaTime, context, timeStamp) {
       this.CameraX += this.speedTile;
       this.CameraY += this.speedTileY;
-
+      //console.log(this.CameraX,this.CameraY);
       this.background.update();
 
       this.tiles.forEach((tile) => {
@@ -307,7 +307,7 @@ window.addEventListener("load", function () {
   function animate(timeStamp) {
     const deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.update(deltaTime, ctx, timeStamp);
     game.draw(ctx);
     requestAnimationFrame(animate);

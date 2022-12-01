@@ -27,7 +27,7 @@ export class Mask {
     this.framex = 0;
     this.framey = 0;
 
-    this.origin = y;
+    this.originY = y;
 
     this.image = document.getElementById("mask");
 
@@ -36,18 +36,18 @@ export class Mask {
   update(speed, speedy, time, deltaTime) {
     this.x -= speed ;
     this.y -= speedy + this.speed;
-    this.origin -= speedy;
+    this.originY -= speedy;
 
-    if(this.origin - this.y > 200){
+    if(this.originY - this.y > 200){
       this.speed = -5;
       (this.game.player.x + this.game.CameraX > this.x + this.game.CameraX - 400)?this.framey = 0 : this.framey = 3;
-    }else if(this.origin - this.y < 1){
+    }else if(this.originY- this.y < 1){
       this.speed = 5;
       (this.game.player.x + this.game.CameraX > this.x + this.game.CameraX - 400)?this.framey = 1 : this.framey = 4;
     }
     this.maxFrame = 3;
     this.framex = 0;
-    console.log(this.origin - this.y, this.speed)
+    //console.log(this.originY- this.y, this.speed)
     this.colision();
     this.animation(deltaTime);
     this.attack(time, deltaTime);
