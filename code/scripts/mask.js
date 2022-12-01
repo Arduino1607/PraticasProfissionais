@@ -40,10 +40,10 @@ export class Mask {
 
     if(this.originY - this.y > 200){
       this.speed = -5;
-      (this.game.player.x + this.game.CameraX > this.x + this.game.CameraX - 400)?this.framey = 0 : this.framey = 3;
+      (this.game.level.player.x + this.game.level.CameraX > this.x + this.game.level.CameraX - 400)?this.framey = 0 : this.framey = 3;
     }else if(this.originY- this.y < 1){
       this.speed = 5;
-      (this.game.player.x + this.game.CameraX > this.x + this.game.CameraX - 400)?this.framey = 1 : this.framey = 4;
+      (this.game.level.player.x + this.game.level.CameraX > this.x + this.game.level.CameraX - 400)?this.framey = 1 : this.framey = 4;
     }
     this.maxFrame = 3;
     this.framex = 0;
@@ -55,32 +55,32 @@ export class Mask {
 
   colision() {
     if (
-      this.game.player.x + this.game.player.width > this.x + 30 &&
-      this.game.player.x + this.game.player.width < this.x + 40 &&
-      this.game.player.y + this.game.player.height >= this.y &&
-      this.game.player.y < this.y + this.height &&
-      this.game.player.currentState.getState() != "DEADING"
+      this.game.level.player.x + this.game.level.player.width > this.x + 30 &&
+      this.game.level.player.x + this.game.level.player.width < this.x + 40 &&
+      this.game.level.player.y + this.game.level.player.height >= this.y &&
+      this.game.level.player.y < this.y + this.height &&
+      this.game.level.player.currentState.getState() != "DEADING"
     ) {
-      this.game.player.isDeath = true;
-      this.game.player.setState(7);
+      this.game.level.player.isDeath = true;
+      this.game.level.player.setState(7);
     }
     if (
-      this.game.player.x < this.x + this.width - 30 &&
-      this.game.player.x > this.x + this.width - 40 &&
-      this.game.player.y + this.game.player.height >= this.y &&
-      this.game.player.y < this.y + this.height &&
-      this.game.player.currentState.getState() != "DEADING"
+      this.game.level.player.x < this.x + this.width - 30 &&
+      this.game.level.player.x > this.x + this.width - 40 &&
+      this.game.level.player.y + this.game.level.player.height >= this.y &&
+      this.game.level.player.y < this.y + this.height &&
+      this.game.level.player.currentState.getState() != "DEADING"
     ) {
-      this.game.player.isDeath = true;
-      this.game.player.setState(7);
+      this.game.level.player.isDeath = true;
+      this.game.level.player.setState(7);
     }
 
     if (
-      this.game.player.x + this.game.player.width > this.x + 30 &&
-      this.game.player.x < this.x + this.width - 30 &&
-      this.game.player.y + this.game.player.height + this.game.player.vy >=
+      this.game.level.player.x + this.game.level.player.width > this.x + 30 &&
+      this.game.level.player.x < this.x + this.width - 30 &&
+      this.game.level.player.y + this.game.level.player.height + this.game.level.player.vy >=
         this.y &&
-      this.game.player.y + this.game.player.height + this.game.player.vy <
+      this.game.level.player.y + this.game.level.player.height + this.game.level.player.vy <
         this.y + this.height
     ) {
       this.marked = true;
@@ -104,14 +104,14 @@ export class Mask {
   attack(time, deltaTime){
     if (
       time / 1000 - this.lastShoot > 0.8 &&
-      this.game.player.x + this.game.CameraX > this.x + this.game.CameraX - 400
+      this.game.level.player.x + this.game.level.CameraX > this.x + this.game.level.CameraX - 400
     ) {
       var s = new Shoot(
         this.x + this.width / 2,
         this.y + this.height / 2,
         16,
         16,
-        this.game,
+        this.game.level,
         this,
         "mask");
         this.lastShoot = time/1000;
@@ -122,18 +122,18 @@ export class Mask {
     }
 
     this.shoots.forEach((s) => {
-      s.update(this.game.speedTileY, deltaTime);
+      s.update(this.game.level.speedTileY, deltaTime);
     });
 
     this.shoots.forEach((shoot) => {
       if (
-        shoot.x > this.game.player.x &&
-        shoot.x < this.game.player.x + this.game.player.width &&
-        shoot.y + shoot.height >= this.game.player.y &&
-        shoot.y < this.game.player.y + this.game.player.height
+        shoot.x > this.game.level.player.x &&
+        shoot.x < this.game.level.player.x + this.game.level.player.width &&
+        shoot.y + shoot.height >= this.game.level.player.y &&
+        shoot.y < this.game.level.player.y + this.game.level.player.height
       ) {
-        this.game.player.isDeath = true;
-        this.game.player.setState(7, 0);
+        this.game.level.player.isDeath = true;
+        this.game.level.player.setState(7, 0);
         shoot.marked = true;
       }
     });

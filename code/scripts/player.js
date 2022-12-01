@@ -108,11 +108,9 @@ export class Player {
           this.game.speedTile = this.maxSpeed;
         }
       }
-      //console.log(this.x, this.game.CameraX);
       
       //vertical movement
       let DistanceToGround = this.onGround();
-      //console.log(this.onGround());
       if (DistanceToGround == 0 && this.currentState.getState() != "CLIMBING") {
         if (this.y + this.height >= this.game.height - this.game.groundMargin) {
           this.y = this.game.height - this.game.groundMargin - this.height;
@@ -146,7 +144,6 @@ export class Player {
       this.game.speedTileY = 0;
       this.speed = 0;
       let DistanceToGround = this.onGround();
-      //console.log(this.onGround(), this.isDeath);
       if (DistanceToGround == 0){
         if (this.y + this.height >= this.game.height - this.game.groundMargin) {
           this.y = this.game.height - this.game.groundMargin - this.height;
@@ -165,7 +162,6 @@ export class Player {
 
           }
         });
-        //this.vy += this.weight;
       }else{
         this.vy = 0;
       }

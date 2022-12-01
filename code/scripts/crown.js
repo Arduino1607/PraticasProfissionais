@@ -21,6 +21,8 @@ export class Crown {
     this.originX = x;
     this.direction = direction;
     this.range = range;
+
+    //animation variable
     this.framex = 0;
     this.framey = 0;
     this.image = document.getElementById("crown");
@@ -34,20 +36,20 @@ export class Crown {
   update(speed, speedy, time, deltaTime) {
     this.x -= speed + this.speed;
     this.y -= speedy - this.vy;
+
     this.originY -= speedy;
 
-    
-      if (this.previousState == 0) {
-        if ((time / 1000) - this.lastAttack >= this.range) {
-          this.framey = 0;
+    if (this.previousState == 0) {
+      if ((time / 1000) - this.lastAttack >= this.range) {
+        this.framey = 0;
         this.speed = 0;
         this.previousState = this.followingState;
         this.followingState = 0;
         this.lastAttack = time / 1000;
-        }
-      } else {
-        if ((time / 1000) - this.lastAttack >= 1) {
-          this.framey = 1;
+      }
+    } else {
+      if ((time / 1000) - this.lastAttack >= 1) {
+        this.framey = 1;
         if (this.previousState == -1) {
           this.speed = -10*this.direction;
           this.followingState = 1;
@@ -61,10 +63,10 @@ export class Crown {
         }
         this.previousState = 0;
         this.lastAttack = time / 1000;
-      }else if (this.y >= this.originY) {
-        this.vy = 0;
-        this.y = this.originY;
-      }
+    }else if (this.y >= this.originY) {
+      this.vy = 0;
+      this.y = this.originY;
+    }
     }
     
     if (this.y < this.originY)
@@ -76,32 +78,32 @@ export class Crown {
 
   colision() {
     if (
-      this.game.player.x + this.game.player.width > this.x + 60 &&
-      this.game.player.x + this.game.player.width < this.x + 80 &&
-      this.game.player.y + this.game.player.height >= this.y &&
-      this.game.player.y < this.y + this.height &&
-      this.game.player.currentState.getState() != "DEADING"
+      this.game.level.player.x + this.game.level.player.width > this.x + 60 &&
+      this.game.level.player.x + this.game.level.player.width < this.x + 80 &&
+      this.game.level.player.y + this.game.level.player.height >= this.y &&
+      this.game.level.player.y < this.y + this.height &&
+      this.game.level.player.currentState.getState() != "DEADING"
     ) {
-      this.game.player.isDeath = true;
-      this.game.player.setState(7);
+      this.game.level.player.isDeath = true;
+      this.game.level.player.setState(7);
     }
     if (
-      this.game.player.x < this.x + this.width - 60 &&
-      this.game.player.x > this.x + this.width - 80 &&
-      this.game.player.y + this.game.player.height >= this.y &&
-      this.game.player.y < this.y + this.height &&
-      this.game.player.currentState.getState() != "DEADING"
+      this.game.level.player.x < this.x + this.width - 60 &&
+      this.game.level.player.x > this.x + this.width - 80 &&
+      this.game.level.player.y + this.game.level.player.height >= this.y &&
+      this.game.level.player.y < this.y + this.height &&
+      this.game.level.player.currentState.getState() != "DEADING"
     ) {
-      this.game.player.isDeath = true;
-      this.game.player.setState(7);
+      this.game.level.player.isDeath = true;
+      this.game.level.player.setState(7);
     }
 
     if (
-      this.game.player.x + this.game.player.width > this.x + 60 &&
-      this.game.player.x < this.x + this.width - 60 &&
-      this.game.player.y + this.game.player.height + this.game.player.vy >=
+      this.game.level.player.x + this.game.level.player.width > this.x + 60 &&
+      this.game.level.player.x < this.x + this.width - 60 &&
+      this.game.level.player.y + this.game.level.player.height + this.game.level.player.vy >=
       this.y &&
-      this.game.player.y + this.game.player.height + this.game.player.vy <
+      this.game.level.player.y + this.game.level.player.height + this.game.level.player.vy <
       this.y + this.height
     ) {
       this.marked = true;
@@ -120,8 +122,6 @@ export class Crown {
     }
   }
   draw(context) {
-    //context.fillStyle = "black";
-    //context.fillRect(this.x, this.y, this.width, this.height);
     context.drawImage(
       this.image,
       this.framex * 32,
@@ -133,6 +133,5 @@ export class Crown {
       this.width,
       this.height
     );
-    
   }
 }

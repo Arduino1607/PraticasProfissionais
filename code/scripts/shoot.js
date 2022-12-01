@@ -36,7 +36,7 @@ export class Shoot{
             }
         })
         if(this.origin == "player"){
-            this.game.crowns.forEach(tile=>{
+            this.game.enemys.forEach(tile=>{
                 if((this.x + this.width > tile.x && this.x + this.width < tile.x + 20) && (this.y + this.height >= tile.y && this.y  < tile.y + tile.height)){
                     tile.marked = true;
                     this.marked = true;

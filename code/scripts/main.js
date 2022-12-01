@@ -5,7 +5,7 @@ import { Crown } from "./crown.js";
 import { InputHandler } from "./input.js";
 import { Mask } from "./mask.js";
 import { Player } from "./player.js";
-
+import {Level} from "./level.js"
 import { Tile } from "./tile.js";
 
 window.addEventListener("load", function () {
@@ -26,15 +26,6 @@ window.addEventListener("load", function () {
 
       this.image = document.getElementById("fundo");
 
-      this.beginX = 100;
-      this.beginY = 250;
-      this.CameraX = 0;
-      this.CameraY = 0;
-      this.end = 1950;
-
-      this.player = new Player(this);
-      this.background = new Background(this);
-      this.input = new InputHandler();
       this.tiles = [
         new Tile(
           62,
@@ -254,50 +245,24 @@ window.addEventListener("load", function () {
       this.crowns = [
         new Crown(700, this.height - this.groundMargin - 96, 96, 96, 1, this, 0.5),
         new Crown(800, this.height - this.groundMargin - 96, 96, 96, -1,this, 0.5),
-        new Crown(617+1280, 348 + 360 - 64, 96, 96, 1, this, 0.4),
+        new Crown(617+1280, 348 + 360 - 64, 96, 96, 1, this, 0.4,"crown"),
         new Mask(1050, this.height - this.groundMargin  + 390, 96, 96, this),
         new Mask(937 + 1950, 190 + 340, 96, 96, this),
       ];
+      this.levels = [new Level(this.width, this.height, this.image,1950, this.tiles, this.stairs, this.thorns,this.crowns)]
+      this.level = this.levels[0];
     }
 
     update(deltaTime, context, timeStamp) {
-      this.CameraX += this.speedTile;
-      this.CameraY += this.speedTileY;
-      //console.log(this.CameraX,this.CameraY);
-      this.background.update();
-
-      this.tiles.forEach((tile) => {
-        tile.update(this.speedTile, this.speedTileY);
-      });
-      this.thorns.forEach((thorn) => {
-        thorn.update(this.speedTile, this.speedTileY);
-      });
-      this.stairs.forEach((s) => {
-        s.update(this.speedTile, this.speedTileY);
-      });
-      this.crowns.forEach((s) => {
-        s.update(this.speedTile, this.speedTileY, timeStamp,deltaTime);
-      });
-      this.player.update(this.input.keys, deltaTime, context);
+      
+      this.level.update(deltaTime, context, timeStamp);
+      
     }
 
     draw(context) {
      
-      ctx.drawImage(fundo,0,0,canvas.width,canvas.height);
-      this.tiles.forEach((tile) => {
-        tile.draw(context);
-      });
-      this.stairs.forEach((s) => {
-        s.draw(context);
-      });
-      this.thorns.forEach((thorn) => {
-        thorn.draw(context);
-      });
-      this.crowns.forEach((s) => {
-        s.draw(context);
-      });
-      this.crowns = this.crowns.filter((crown) => !crown.marked);
-      this.player.draw(context);
+      this.level.draw(context);
+
     }
   }
 
