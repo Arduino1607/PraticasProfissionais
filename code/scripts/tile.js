@@ -9,7 +9,7 @@ export class Tile{
         this.width = width;
         this.height = height;
         this.image = document.getElementById(image);
-
+        this.marked = false;
     }
 
     update(speed, speedy){

@@ -2,22 +2,24 @@ import {
     Left,
     Right,
     Up,
-    Down
+    Down,
+    IDLE
   } from "./playerStateBoss.js";
   import { Shoot } from "./shoot.js";
+import { Tile } from "./tile.js";
   
   export class Player {
     constructor(game) {
       //player variables
       this.game = game;
       this.image = document.getElementById("dancing");
-      this.width = 96;
-      this.height = 96;
+      this.width = 128;
+      this.height = 128;
   
       //position variables
-      this.x = 50;
-      this.y = this.game.height - this.height - this.game.groundMargin;
-  
+      this.x = 120;
+      this.y = this.game.height - this.height - this.game.groundMargin + 38;
+   
       //movement variables
       this.speed = 0;
       this.maxSpeed = 5;
@@ -31,14 +33,18 @@ import {
       this.fps = 5;
       this.frameInterval = 1000 / this.fps;
       this.frameTimer = 0;
-  
+      
+
       //state variables
       this.states = [
         new Left(this),
         new Right(this),
         new Up(this),
         new Down(this),
+        new IDLE(this)
       ];
+
+      
       this.currentState = this.states[0];
       this.lastKey = "D";
       this.isDeath = false;
@@ -64,19 +70,14 @@ import {
             this.setState(0)
           
           
-        }
-        else {
-          this.speed = 0;
-        }
-        
-        if (input.includes("ArrowUp")) {
+        }else if (input.includes("ArrowUp")) {
             
             this.setState(2)
             
           } else if (input.includes("ArrowDown")) {
               this.setState(3)
-            
-            
+          }else{
+            this.setState(4);
           }
         //borders
         if (this.x + 30 < 0){
@@ -99,7 +100,7 @@ import {
         if (this.framex < this.maxFrame - 1){
          this.framex++;
         } else{
-          this.framex = 0;
+          this.framex = this.framex;
         } 
       } else {
         this.frameTimer += deltaTime;
@@ -107,7 +108,6 @@ import {
     }
   
     draw(context) {
-      
       this.shoots.forEach((shoot) => {
         shoot.draw(context);
       });

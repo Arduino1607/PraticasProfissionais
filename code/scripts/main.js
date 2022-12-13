@@ -2,7 +2,7 @@
 //TODO corrigir erros nas cameras
 import { firstBoss } from "./firstboss.js";
 import {Level1} from "./level1.js"
-
+import {Level2} from "./level2.js"
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
@@ -19,11 +19,8 @@ window.addEventListener("load", function () {
       this.speedTile = 0;
       this.speedTileY = 0;
 
-      
-
-      
-      this.levels = [new Level1(this.width, this.height, this.image,1950),new firstBoss(this.width, this.height, this.image,1950)]
-      this.level = this.levels[1];
+      this.levels = [new Level2(this.width, this.height, this.image,1950),new Level1(this.width, this.height, this.image,1950),new firstBoss(this.width, this.height, "cercibackground",1950)]
+      this.level = this.levels[2];
     }
 
     update(deltaTime, context, timeStamp) {

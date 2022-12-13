@@ -4,7 +4,7 @@ import { Background } from "./background.js";
 import { Crown } from "./crown.js";
 import { Mask } from "./mask.js";
 import { Tile } from "./tile.js";
-export class Level1 {
+export class Level2 {
   constructor(width, height, image, end, tiles, stairs, thorns, enemys) {
     this.width = width;
     this.height = height;
@@ -25,8 +25,6 @@ export class Level1 {
 
     this.player = new Player(this);
     this.input = new InputHandler();
-
-
 
     this.tiles = [
       new Tile(

@@ -2,7 +2,8 @@ const states = {
     LEFT: 0,
     RIGHT: 1,
     UP: 2,
-    DOWN: 3
+    DOWN: 3,
+    IDLE: 4
 }
 
 class State{
@@ -16,7 +17,7 @@ class State{
 
 export class Left extends State{
     constructor(player){
-        super('DANCING');
+        super('LEFT');
         this.player = player;
     }
     enter(){
@@ -32,7 +33,7 @@ export class Left extends State{
 
 export class Right extends State{
     constructor(player){
-        super('DANCING');
+        super('RIGHT');
         this.player = player;
     }
     enter(){
@@ -48,7 +49,7 @@ export class Right extends State{
 
 export class Up extends State{
     constructor(player){
-        super('DANCING');
+        super('UP');
         this.player = player;
     }
     enter(){
@@ -64,7 +65,7 @@ export class Up extends State{
 
 export class Down extends State{
     constructor(player){
-        super('DANCING');
+        super('DOWN');
         this.player = player;
     }
     enter(){
@@ -78,3 +79,18 @@ export class Down extends State{
     }
 }
 
+export class IDLE extends State{
+    constructor(player){
+        super('IDLE');
+        this.player = player;
+    }
+    enter(){
+        this.player.framex = 4;
+        this.player.framey = 0;
+        this.player.maxFrame = 1;
+
+    }
+    handleInput(input){
+        
+    }
+}
