@@ -44,6 +44,13 @@ O jogo será constituído por quatro fases com chefões e por caminhos (estilo m
 - [Pedrito](https://github.com/Pedro-de-Maria)(Artista)
 - Little vini(Artista)
 
+# Como Jogar
+- Você deve abrir o codigo no VisualStudioCode
+- Baixar a extenção liveserver
+- Clicar no canto inferior direito em GoLive
+- Acessar a porta onde o liveserver está rodando
+- Selecionar a pasta code
+
 # Inspiração para o desing dos personagens:
 https://www.pinterest.com/pin/825777281652783794/
 https://pt.dreamstime.com/illustration/super-mario.html
