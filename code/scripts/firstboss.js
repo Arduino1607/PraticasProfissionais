@@ -23,7 +23,7 @@ export class firstBoss {
 
     this.player = new Player(this);
     this.input = new InputHandler();
-    this.cerci = new Cerci(1000,260,200,200,"cerci");
+    this.cerci = new Cerci(1000,140,240,320,"cerci");
 
     this.placar = 0;
 
@@ -46,8 +46,8 @@ export class firstBoss {
       64,
       0,
       0,
-      64,
-      16,
+      128,
+      32,
       "arrowsEmpty"
     )
 
@@ -58,10 +58,10 @@ export class firstBoss {
             -(100 * i),
             64,
             64,
-            16*(i%4),
+            32*(i%4),
             0,
-            16,
-            16,
+            32,
+            32,
             "arrows"
         );
         
@@ -73,9 +73,9 @@ export class firstBoss {
     this.CameraX += this.speedTile;
     this.CameraY += this.speedTileY;
     this.line.update(0,0);
-    console.log(this.CameraX, this.CameraY, this.end);
+    //console.log(this.CameraX, this.CameraY, this.end);
 
-    this.cerci.update(this.placar);
+    this.cerci.update(this.placar,deltaTime);
 
     this.tiles.forEach((tile) => {
       tile.update(this.speedTile, this.speedTileY);
@@ -119,7 +119,7 @@ export class firstBoss {
           }
         }
 
-        console.log(this.placar)
+        //console.log(this.placar)
     });
     this.player.update(this.input.keys, deltaTime, context);
   }

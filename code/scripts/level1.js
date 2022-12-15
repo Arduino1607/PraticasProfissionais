@@ -4,8 +4,10 @@ import { Background } from "./background.js";
 import { Crown } from "./crown.js";
 import { Mask } from "./mask.js";
 import { Tile } from "./tile.js";
+import {Door } from "./doors.js"
 export class Level1 {
-  constructor(width, height, image, end, tiles, stairs, thorns, enemys) {
+  constructor(game,width, height, image, end, tiles, stairs, thorns, enemys) {
+    this.game = game;
     this.width = width;
     this.height = height;
     this.groundMargin = 80;
@@ -272,6 +274,18 @@ export class Level1 {
       new Mask(1050, this.height - this.groundMargin  + 390, 96, 96, this),
       new Mask(937 + 1950, 190 + 340, 96, 96, this),
     ];
+    this.doors = [new Door(
+      1117+1950,
+      190+332-81,
+      72,
+      183,
+      1508,
+      431,
+      24,
+      51,
+      "Mapa",
+      this.player
+    )]
   }
 
   update(deltaTime, context, timeStamp) {
@@ -291,6 +305,9 @@ export class Level1 {
     this.enemys.forEach((s) => {
       s.update(this.speedTile, this.speedTileY, timeStamp, deltaTime);
     });
+    this.doors.forEach((s) => {
+      s.update(this.speedTile, this.speedTileY);
+    });
     this.player.update(this.input.keys, deltaTime, context);
   }
 
@@ -306,6 +323,9 @@ export class Level1 {
       thorn.draw(context);
     });
     this.enemys.forEach((s) => {
+      s.draw(context);
+    });
+    this.doors.forEach((s) => {
       s.draw(context);
     });
     this.enemys = this.enemys.filter((enemy) => !enemy.marked);

@@ -153,6 +153,11 @@ export class Deading extends State{
             tile.y += this.player.game.CameraY;
             tile.originY += this.player.game.CameraY;
         });
+        this.player.game.doors.forEach((tile)=>{
+            tile.x += this.player.game.CameraX;
+            tile.y += this.player.game.CameraY;
+            tile.originY += this.player.game.CameraY;
+        });
         this.player.game.CameraX = 0;
         this.player.game.CameraY = 0;
         this.player.x = this.player.game.beginX; 

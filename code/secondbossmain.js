@@ -239,7 +239,7 @@ class Grid {
       })
       )}
     }
-    console.log(this.invaders)
+    //console.log(this.invaders)
   }
 
   update(){

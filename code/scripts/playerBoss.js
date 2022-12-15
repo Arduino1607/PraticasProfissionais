@@ -17,7 +17,7 @@ import { Tile } from "./tile.js";
       this.height = 128;
   
       //position variables
-      this.x = 120;
+      this.x = 458;
       this.y = this.game.height - this.height - this.game.groundMargin + 38;
    
       //movement variables
@@ -145,10 +145,10 @@ import { Tile } from "./tile.js";
   
       context.drawImage(
         this.image,
-        this.framex * 32,
-        this.framey * 32 + 1,
-        32,
-        32,
+        this.framex * 62,
+        this.framey * 62 + 1,
+        62,
+        62,
         x,
         this.y,
         this.width,

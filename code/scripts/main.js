@@ -18,20 +18,19 @@ window.addEventListener("load", function () {
       this.MaxSpeed = 3;
       this.speedTile = 0;
       this.speedTileY = 0;
-
-      this.levels = [new Level2(this.width, this.height, this.image,1950),new Level1(this.width, this.height, this.image,1950),new firstBoss(this.width, this.height, "cercibackground",1950)]
-      this.level = this.levels[2];
+      this.index = 1;
+      this.levels = [new Level2(this.width, this.height, this.image,1950),new Level1(this,this.width, this.height, this.image,1950),new firstBoss(this.width, this.height, "cercibackground",1950)]
+      this.level = this.levels[this.index];
     }
 
     update(deltaTime, context, timeStamp) {
-      
-      this.level.update(deltaTime, context, timeStamp);
-      
+      this.levels[this.index].update(deltaTime, context, timeStamp);
+      console.log(this.index)
     }
 
     draw(context) {
      
-      this.level.draw(context);
+      this.levels[this.index].draw(context);
 
     }
   }

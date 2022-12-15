@@ -85,7 +85,20 @@ export class Player {
         )
           this.x = tile.x + tile.width - 30;
       });
-      
+      this.game.doors.forEach((tile) => {
+       if (
+            this.x < tile.x + tile.width &&
+            this.x + this.width > tile.x &&
+            this.y - 64 < tile.y + tile.height &&
+            this.height - 64 + this.y > tile.y
+          ){
+            if(input.includes("ArrowUp")){
+              console.log(this.game.game.index)
+              this.game.game.index = 2;
+            }
+        }
+      }
+      );
       //horizontal movement
       if (input.includes("ArrowRight")) {
         this.speed = this.maxSpeed;
@@ -170,6 +183,7 @@ export class Player {
     this.shoots.forEach((shoot) => {
       shoot.update(this.game.speedTileY);
     });
+    console.log(this.x, this.y)
   }
 
   climbing(){
